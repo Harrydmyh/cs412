@@ -8,8 +8,8 @@ from . import views
 
 # URL patterns specific to the hw app:
 urlpatterns = [
-    path(r"", views.quote, name="main_page"),
-    path(r"/quote", views.quote, name="quote_page"),
-    path(r"/show_all", views.show_all, name="show_all_page"),
-    path(r"/about", views.about, name="about_page"),
+    path("", views.main, name="main_page"),
+    path("/quote", views.quote, name="quote_page"),
+    path("/show_all", views.show_all, name="show_all_page"),
+    path("/about", views.about, name="about_page"),
 ]

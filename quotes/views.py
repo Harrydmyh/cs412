@@ -23,7 +23,7 @@ images = [
 
 
 # Create your views here.
-def quote(request):
+def main(request):
     """generate one quote and one image at random"""
     template_name = "quote.html"
 
@@ -36,8 +36,13 @@ def quote(request):
         "image": images[image_num],
         "time": time.ctime(),
     }
-
     return render(request, template_name, context)
+
+
+def quote(request):
+    """generate one quote and one image at random"""
+
+    return main(request)
 
 
 def show_all(request):
