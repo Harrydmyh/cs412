@@ -1,0 +1,13 @@
+<!-- File: quote.html -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 9/11/2025 -->
+<!-- Description: the view to display random Steve Jobs quote and image -->
+
+{% extends 'base.html' %}
+{% block content %}
+<main>
+    <div>
+    <p id="quote">{{ quote }}</p>
+    </div>
+    <img src={{ image }} alt="Steve Jobs image">
+</main>
+{% endblock %}

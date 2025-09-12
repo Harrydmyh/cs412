@@ -1,0 +1,90 @@
+/* File: quotes_styles.css
+Author: Yihang Duanmu (harrydm@bu.edu), 9/11/2025
+Description: the stylesheet for the quotes of the day application */
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #e8f5e9;
+    color: slategray;
+    font-family: arial;
+}
+
+header {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+nav {
+    list-style: none;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+nav ul {
+    padding: 0px;
+}
+
+nav li {
+    display: inline;
+}
+
+nav li:not(:last-child) {
+    margin-right: 15px;
+}
+
+nav a {
+    font-size: 18px;
+    text-decoration: none;
+    color: grey;
+}
+
+div {
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    width: 50%;
+}
+
+#quote {
+    font-size: calc(2px + 3vh);
+    text-align: center;
+}
+
+#about {
+    line-height: 1.5;
+    padding: 20px;
+    text-align: justify;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+main ul {
+    margin: auto;
+    padding: 0px;
+    width: 50%;
+}
+
+main ul li {
+    color: black;
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+img {
+    display: block;
+    margin: auto;
+    width: 50%;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+}

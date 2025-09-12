@@ -1,0 +1,33 @@
+<!-- File: base.html -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 9/11/2025 -->
+<!-- Description: base template for other pages -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Steve Jobs Quote of the Day</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'quotes_styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Steve Jobs Quote of The Day</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'quote_page' %}">Quote of the Day</a></li>
+            <li><a href="{% url 'show_all_page' %}">Show All Quotes</a></li>
+            <li><a href="{% url 'about_page' %}">About Steve Jobs</a></li>
+        </ul>
+    </nav>
+    {% block content %}
+    {% endblock %}
+    <footer>
+        <p>Page created by harrydm@bu.edu.<br>
+        Generated at: {{ time }}
+        </p>
+    </footer>
+</body>
+</html>

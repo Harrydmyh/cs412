@@ -1,0 +1,21 @@
+<!-- File: show_all.html -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 9/11/2025 -->
+<!-- Description: the view to display all quotes and images -->
+
+{% extends 'base.html' %}
+{% block content %}
+<main>
+    <h2>All quotes by Steve Jobs</h2>
+    <ul>
+        {% for quote in quotes %}
+        <li>{{ quote }}</li>
+        {% endfor %}
+    </ul>
+    <h2>All images of Steve Jobs</h2>
+    <ul>
+        {% for image in images %}
+        <img src={{ image }} alt="Steve Jobs image">
+        {% endfor %}
+    </ul>
+</main>
+{% endblock %}
