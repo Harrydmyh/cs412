@@ -234,3 +234,19 @@ footer {
     margin-top: auto;
     padding-top: 30px;
 }
+
+/* responsive styles */
+@media screen and (max-width: 980px)
+{
+    main {
+        height: auto;
+        width: 80%;
+    }
+
+    #filler {
+        width: auto;
+        border: none;
+        padding: 0;
+        height: auto;
+    }
+}

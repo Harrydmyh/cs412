@@ -56,8 +56,6 @@ def confirmation(request):
             "Add-on: beef",
             "Add-on: chicken",
             "Add-on: sausage",
-            "Baguette",
-            "Roast Duck",
             "Linguini's Soup Special",
             "Salmon on Caesar Salad",
         ]
