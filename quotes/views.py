@@ -3,7 +3,6 @@
 # Description: Views for quote of the day application
 
 from django.shortcuts import render
-from django.http import HttpRequest, HttpResponse
 import random
 import time
 

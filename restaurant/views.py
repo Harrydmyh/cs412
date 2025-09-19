@@ -5,7 +5,6 @@
 from django.shortcuts import render
 import time
 import random
-from django.http import HttpResponse
 
 # Special dish list
 special = [
