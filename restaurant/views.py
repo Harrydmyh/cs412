@@ -85,9 +85,9 @@ def confirmation(request):
             "orders": ordered_list,
             "special_request": instructions,
             "total": f"${total}",
-            "name": f"Name: {reply["name"]}",
-            "phone": f"Phone: {reply["phone"]}",
-            "email": f"Email: {reply["email"]}",
+            "name": f"Name: {reply['name']}",
+            "phone": f"Phone: {reply['phone']}",
+            "email": f"Email: {reply['email']}",
         }
 
         return render(request, template_name, context)
