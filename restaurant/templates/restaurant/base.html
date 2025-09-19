@@ -1,0 +1,39 @@
+<!-- File: base.html -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 9/16/2025 -->
+<!-- Description: base template for other pages -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home | Restaurant</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'restaurant_styles.css' %}">
+</head>
+<body>
+    <div id="page_wrapper">
+        <header>
+            <h1>Gusteau's</h1>
+        </header>
+        <div id="container">
+            <nav>
+                <ul>
+                    <li><a href="{% url 'main_page' %}">Main page</a></li>
+                    <li><a href="{% url 'order_page' %}">Order page</a></li>
+                </ul>
+            </nav>
+            {% block content %}
+            {% endblock %}
+            <div id="filler">
+
+            </div>
+        </div>
+        <footer>
+            <p>Page created by harrydm@bu.edu.<br>
+            Generated at: {{ time }}
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

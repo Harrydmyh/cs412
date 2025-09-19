@@ -1,0 +1,82 @@
+<!-- File: order.html -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 9/16/2025 -->
+<!-- Description: the page to place order -->
+
+{% extends 'restaurant/base.html' %}
+{% block content %}
+<main>
+<div id="order">
+    <h1>Place an order</h1>
+    <form action="{% url 'confirmation_page' %}" method="post">
+        {% csrf_token %}
+        <h2>Select your item:</h2>
+        <div class="option">
+            <input type="checkbox" id="food0" name="Ratatouille" value="20">
+            <label for="food0">Our signiture ratatouille $20</label>
+        </div>
+
+        <div id="size-choice">
+            <h3>Add-ons:</h3>
+            <div class="size-option">
+                <input type="checkbox" id="add1" name="Add-on: beef" value="9">
+                <label for="add1">Beef $9</label>
+            </div>
+            <div class="size-option">
+                <input type="checkbox" id="add2" name="Add-on: chicken" value="6">
+                <label for="add2">Chichen $6</label>
+            </div>
+            <div class="size-option">
+                <input type="checkbox" id="add3" name="Add-on: sausage" value="8">
+                <label for="add3">Sausage $8</label>
+            </div>
+        </div>
+
+        <h2>Select other amazing dishes:</h2>
+        <div class="option">
+            <input type="checkbox" id="food1" name="Baguette" value="5">
+            <label for="food1">Baguettes $5</label><br>
+        </div>
+        <div class="option">
+            <input type="checkbox" id="food2" name="Roast Duck" value="15">
+            <label for="food2">Roast Duck $15</label><br>
+        </div>
+        <div class="option">
+            <input type="checkbox" id="food3" name="Linguini's Soup Special" value="10">
+            <label for="food3">Linguini's Soup Special $10</label><br>
+        </div>
+        <div class="option">
+            <input type="checkbox" id="food4" name="Salmon on Caesar Salad" value="13">
+            <label for="food4">Salmon on Caesar Salad $13</label>
+        </div>
+
+        <div class="special">
+            <h2>Today's special:</h2>
+            <div class="option">
+                <input type="checkbox" id="special" name="special" value="{{ special }}">
+                <label for="special">{{ special }}</label>
+            </div>
+        </div>
+
+        <div class="special">
+            <h2>Your special request:</h2>
+            <p>Please tell us what else you want:</p>
+            <textarea name="special_instructions" rows="3" cols="60"></textarea>
+        </div>
+
+        <div class="contact">
+            <h2>Customer Informtion</h2>
+            <p>Name:</p>
+            <input type="text" name="name">
+            <p>Phone:</p>
+            <input type="text" name="phone">
+            <p>Email:</p>
+            <input type="text" name="email">
+        </div>
+        <div class="submit">
+            <h2>Submit your order!</h2>
+            <input type="submit" value="Place Order">
+        </div>
+    </form>
+</div>
+</main>
+{% endblock %}

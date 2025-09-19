@@ -1,0 +1,30 @@
+<!-- File: confirmation.html -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 9/16/2025 -->
+<!-- Description: the page to confirm the order -->
+
+{% extends 'restaurant/base.html' %}
+{% block content %}
+<main>
+<div id="confirmation">
+    <h1>Confirmation</h1>
+    <p>Thank you for your order!</p>
+    <b><p>Your order will be ready at {{ ready_time }}</p></b>
+    <h2>You ordered:</h2>
+    <ul>
+        {% for order in orders %}
+        <li>{{ order }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Special request</h2>
+    <p>{{ special_request }}</p>
+
+    <b><p>Total: {{ total }}</p></b>
+    <h2>Customer information:</h2>
+    <ul>
+        <li>{{ name }}</li>
+        <li>{{ phone }}</li>
+        <li>{{ email }}</li>
+    </ul>
+</div>
+</main>
+{% endblock %}

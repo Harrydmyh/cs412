@@ -1,0 +1,236 @@
+/* File: restaurant_styles.css
+Author: Yihang Duanmu (harrydm@bu.edu), 9/16/2025
+Description: the stylesheet for the restaurant application */
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#page_wrapper {
+    width: 80vw;
+    margin: 0 auto;
+    flex-grow: 1;
+}
+
+body {
+    background-color: ivory;
+    color: black;
+    font-family: arial;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-align: center;
+    margin-top: 20px;
+    border-bottom: 1.5px solid #d8d0d0;
+    color: dimgrey;
+    font-family: 'Lato', sans-serif;
+    padding-bottom: 20px;
+}
+
+#container {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: stretch;
+    text-align: center;
+}
+
+nav {
+    width: 20%;
+    border-right: 1.5px solid #d8d0d0;
+    padding-top: 35px;
+    padding-right: 2%;
+    height: auto;
+}
+
+nav ul {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    list-style: none;
+}
+
+nav li {
+    border: 1px solid grey;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    margin-bottom: 8%;
+}
+
+nav a {
+    display: block;
+    color: black;
+    padding: 3% 6%;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: calc(2px + 1vw);
+}
+
+main {
+    height: auto;
+    width: 60%;
+}
+
+main h1 {
+    color: saddlebrown;
+    font-family: 'Playfair Display', serif;
+    font-size: calc(2px + 2.5vw);
+    font-weight: 700;
+    margin: 40px 0;
+    text-align: center;
+}
+
+main img {
+    max-width: 60%;
+    margin-bottom: 5%;
+}
+
+main p {
+    font-family: 'Playfair Display', serif;
+    font-size: calc(2px + 1.3vw);
+    max-width: 90%;
+    margin: auto;
+}
+
+#order h1, #confirmation h1{
+    color: saddlebrown;
+    font-family: 'Playfair Display', serif;
+    font-size: calc(2px + 2.5vw);
+    font-weight: 700;
+    margin: 40px 40px;
+    text-align: left;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+form h2 {
+    color: dimgrey;
+    font-size: calc(2px + 1.6vw);
+    margin: 15px 40px;
+    text-align: left;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    margin: 6px 40px;
+}
+
+.option input {
+    margin-right: 8px;
+}
+
+#size-choice h3{
+    font-size: calc(2px + 1.3vw);
+    margin: 15px 70px;
+    color: dimgrey;
+}
+
+.size-option {
+    display: flex;
+    align-items: center;
+    margin: 6px 70px;
+}
+
+.size-option input {
+    margin-right: 8px;
+}
+
+.special {
+    display: flex;
+    flex-direction: column;
+}
+
+.special p{
+    margin-left: 40px;
+    margin-bottom: 10px;
+    font-size: calc(2px + 1.1vw);
+}
+
+.special textarea {
+    margin-left: 40px;
+    width: 80%; 
+}
+
+.contact {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact h2{
+    color: dimgrey;
+    font-size: calc(2px + 1.6vw);
+    margin: 10px 0 10px 40px;
+    text-align: left;
+}
+
+.contact p {
+    margin-left: 40px;
+    margin-top: 10px;
+    font-size: calc(2px + 1.1vw);
+}
+
+.contact input{
+    margin-left: 40px;
+    max-width: 50%;
+}
+
+.submit {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.submit input {
+    margin-left: 40px;
+    padding: 6px;
+    font-size: calc(2px + 0.8vw);
+    max-width: 30%;
+}
+
+#confirmation h2 {
+    color: dimgrey;
+    font-size: calc(2px + 1.4vw);
+    margin: 15px 40px;
+    text-align: left;
+}
+
+#confirmation p{
+    margin-left: 40px;
+    margin-bottom: 15px;
+    text-align: left;
+    font-size: calc(2px + 1.1vw);
+}
+
+#confirmation ul{
+    margin-left: 40px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+#confirmation li{
+    text-decoration: none;
+    font-size: calc(2px + 1vw);
+}
+
+#filler {
+    width: 20%;
+    border-left: 1.5px solid #d8d0d0;
+    padding-left: 2%;
+    height: auto;
+}
+
+footer {
+    text-align: center;
+    margin-top: auto;
+    padding-top: 30px;
+}
