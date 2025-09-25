@@ -1,3 +1,7 @@
+# File: mini_insta/views.py
+# Author: Yihang Duanmu (harrydm@bu.edu), 9/25/2025
+# Description: Views for the mini_insta application
+
 from django.db.models.base import Model as Model
 from django.views.generic import ListView, DetailView
 from .models import Profile
