@@ -78,16 +78,71 @@ main h1 {
     margin-left: 5px;
 }
 
+#image {
+    text-align: right;
+}
+
 #grid-container img {
-    max-width: 80%;
-    margin: auto
+    max-width: 40%;
+    margin: auto;
+}
+
+#grid-container-detail {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    width: 100%;
+    margin: auto;
+    align-items: center;
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+    border-bottom: 1.5px solid #d8d0d0;
+}
+
+#grid-container-detail img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#text {
+    text-align: left;
+}
+
+#grid-container-detail h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: calc(2px + 1.8vw);
+    max-width: 90%;
+    margin-bottom: 10px;
+}
+
+#grid-container-detail h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: calc(2px + 1.5vw);
+    max-width: 90%;
+    margin-bottom: 20px;
+}
+
+#grid-container-detail p {
+    font-family: 'Playfair Display', serif;
+    font-size: calc(2px + 1.3vw);
 }
 
 footer {
     text-align: center;
     margin-top: auto;
     padding-top: 30px;
+    font-size: larger;
+    font-weight: 1000;
+    color: brown;
+    text-decoration: none;
 }
+
+footer a {
+    color: brown;
+    text-decoration: none;
+  }
 
 /* responsive styles */
 @media screen and (max-width: 980px)

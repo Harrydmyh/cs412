@@ -12,7 +12,11 @@
             <h2>{{profile.username}}</h2>
             <h3>{{profile.display_name}}</h3>
         </div>
-        <img src={{profile.profile_image_url}} alt="profile_image">
+        <div id="image">
+            <a href="{% url 'show_profile' profile.pk %}">
+            <img src={{profile.profile_image_url}} alt="profile_image">
+            </a>
+        </div>
     </div>
     {% endfor %}
 </main>

@@ -5,11 +5,24 @@
 
 {% block content %}
 <main>
-    <h1>Mini-Insta: {{profile.username}}</h1>
-    <h2>{{profile.username}}</h2>
-    <h2>{{profile.display_name}}</h2>
-    <img src={{profile.profile_image_url}} alt="profile_image">
-    <p>{{profile.join_date}}</p>
-    <p>{{profile.bio_text|linebreaks}}</p>
+    <div id="grid-container-detail">
+        <img src={{profile.profile_image_url}} alt="profile_image">
+        <div id="text">
+            <h2>{{ profile.username }}</h2>
+            <h3>{{ profile.display_name }}</h3>
+            <p>
+                TBD <b>Posts</b> &nbsp;&nbsp;
+                TBD <b>Followers</b> &nbsp;&nbsp;
+                TBD <b>Following</b>
+            </p>
+            <br>
+            <p>{{ profile.bio_text|linebreaks }}</p>
+            <br>
+            <p>Joined on {{ profile.join_date }}</p>
+        </div>
+    </div>
+    <h2>Posts</h2>
+    <br>
+    <h2>No posts</h2>
 </main>
 {% endblock %}
