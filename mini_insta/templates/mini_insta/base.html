@@ -1,19 +1,30 @@
 <!-- mini_insta/base.html -->
 <!-- base template for mini_insta websites -->
 
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'mini_insta_styles.css' %}" type="text/css">
     <title>Mini_insta | Base</title>
 </head>
 <body>
-    <nav></nav>
-    {% block content %}
-    {% endblock %}
-    <footer>
-
-    </footer>
+    <div id="page_wrapper">
+        <header>
+        Mini-Instagram
+        </header>
+        
+        <nav>
+            Placeholder for future nav implementation
+        </nav>
+        {% block content %}
+        {% endblock %}
+        <footer>
+        Return to home
+        </footer>
+    </div>
 </body>
 </html>

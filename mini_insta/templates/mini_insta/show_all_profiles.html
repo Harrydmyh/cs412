@@ -4,14 +4,16 @@
 {% extends "mini_insta/base.html" %}
 
 {% block content %}
-<header>
-    Mini-Insta: Showing all Profiles
-</header>
 <main>
+    <h1>Showing all Profiles</h1>
     {% for profile in profiles %}
-    <h2>{{profile.username}}</h2>
-    <h2>{{profile.display_name}}</h2>
-    <img src={{profile.profile_image_url}} alt="profile_image">
+    <div id="grid-container">
+        <div id="text">
+            <h2>{{profile.username}}</h2>
+            <h3>{{profile.display_name}}</h3>
+        </div>
+        <img src={{profile.profile_image_url}} alt="profile_image">
+    </div>
     {% endfor %}
 </main>
 {% endblock %}

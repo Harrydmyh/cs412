@@ -1,0 +1,96 @@
+/* File: mini_insta_styles.css
+Author: Yihang Duanmu (harrydm@bu.edu), 9/16/2025
+Description: the stylesheet for the restaurant application */
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#page_wrapper {
+    width: 80vw;
+    margin: 0 auto;
+    flex-grow: 1;
+}
+
+body {
+    background-color: ivory;
+    color: black;
+    font-family: arial;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-align: left;
+    margin-top: 20px;
+    border-bottom: 1.5px solid #d8d0d0;
+    font-size: calc(2px + 3.5vw);
+    font-weight: 700;
+    color: saddlebrown;
+    font-family: 'Lato', sans-serif;
+    padding-bottom: 20px;
+}
+
+nav {
+    font-weight: 100;
+    color: grey;
+}
+
+main {
+    height: auto;
+}
+
+main h1 {
+    color: saddlebrown;
+    font-family: 'Playfair Display', serif;
+    font-size: calc(2px + 2.5vw);
+    font-weight: 700;
+    margin: 20px 0;
+    text-align: left;
+}
+
+#grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    margin: auto;
+    align-items: center;
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+    border-bottom: 1.5px solid #d8d0d0;
+}
+
+#grid-container h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: calc(2px + 2vw);
+    max-width: 90%;
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+
+#grid-container h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: calc(2px + 1.5vw);
+    max-width: 90%;
+    margin-left: 5px;
+}
+
+#grid-container img {
+    max-width: 80%;
+    margin: auto
+}
+
+footer {
+    text-align: center;
+    margin-top: auto;
+    padding-top: 30px;
+}
+
+/* responsive styles */
+@media screen and (max-width: 980px)
+{
+
+}
