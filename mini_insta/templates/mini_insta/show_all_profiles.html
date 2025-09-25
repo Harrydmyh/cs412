@@ -1,0 +1,17 @@
+<!-- mini_insta/show_all_profiles.html -->
+<!-- website to show all the profiles -->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+<header>
+    Mini-Insta: Showing all Profiles
+</header>
+<main>
+    {% for profile in profiles %}
+    <h2>{{profile.username}}</h2>
+    <h2>{{profile.display_name}}</h2>
+    <img src={{profile.profile_image_url}} alt="profile_image">
+    {% endfor %}
+</main>
+{% endblock %}
