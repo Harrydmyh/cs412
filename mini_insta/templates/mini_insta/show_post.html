@@ -1,0 +1,22 @@
+<!-- mini_insta/show_post.html -->
+<!-- website to show one of the posts -->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+<main>
+    <div id="grid-container-detail">
+        <img src={{post.profile.profile_image_url}} alt="profile_image">
+        <div id="text">
+            <h3>{{ post.profile.display_name }}</h3>
+        </div>
+    </div>
+    <p>{{ post.timestamp.date }}</p>
+    <p>{{ post.caption }}</p>
+    {% for photo in post.get_all_photos %}
+    <img src={{photo.image_url}} alt="post image">
+    {% empty %}
+    <img src="https://static.vecteezy.com/system/resources/previews/004/141/669/original/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg" alt="empty image">
+    {% endfor %}
+</main>
+{% endblock %}
