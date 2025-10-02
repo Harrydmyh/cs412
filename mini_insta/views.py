@@ -3,7 +3,9 @@
 # Description: Views for the mini_insta application
 
 from django.db.models.base import Model as Model
-from django.views.generic import ListView, DetailView
+from django.urls import reverse
+from django.views.generic import ListView, DetailView, CreateView
+from .forms import *
 from .models import *
 
 
@@ -30,3 +32,39 @@ class PostDetailView(DetailView):
     model = Post
     template_name = "mini_insta/show_post.html"
     context_object_name = "post"
+
+
+class CreatePostView(CreateView):
+    """A view to handle creation of a new Comment on an Article"""
+
+    form_class = CreatePostForm
+    template_name = "mini_insta/create_post_form.html"
+
+    def get_success_url(self):
+        """Provide a URL to redirect to after creating a new Post"""
+
+        # create and return a URL
+        pk = self.object.pk
+        return reverse("show_post", kwargs={"pk": pk})
+
+    def get_context_data(self):
+        """Return the dictionary of context vatiables for use in the template"""
+
+        context = super().get_context_data()
+
+        pk = self.kwargs["pk"]
+
+        profile = Profile.objects.get(pk=pk)
+        context["profile"] = profile
+
+        return context
+
+    def form_valid(self, form):
+        """This method handles the form submission and saves the new object to the Django database"""
+
+        # retrieve the PK from the URL pattern
+        pk = self.kwargs["pk"]
+        profile = Profile.objects.get(pk=pk)
+        form.instance.profile = profile
+
+        return super().form_valid(form)
