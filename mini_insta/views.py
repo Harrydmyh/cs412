@@ -44,8 +44,8 @@ class CreatePostView(CreateView):
         """Provide a URL to redirect to after creating a new Post"""
 
         # create and return a URL
-        pk = self.object.pk
-        return reverse("show_post", kwargs={"pk": pk})
+        pk = self.kwargs["pk"]
+        return reverse("show_profile", kwargs={"pk": pk})
 
     def get_context_data(self):
         """Return the dictionary of context vatiables for use in the template"""
@@ -67,4 +67,11 @@ class CreatePostView(CreateView):
         profile = Profile.objects.get(pk=pk)
         form.instance.profile = profile
 
-        return super().form_valid(form)
+        response = super().form_valid(form)
+
+        if self.request.POST:
+            image_url = self.request.POST["image_url"]
+            if image_url != "":
+                Photo.objects.create(post=self.object, image_url=image_url)
+
+        return response

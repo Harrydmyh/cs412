@@ -25,6 +25,12 @@ class Profile(models.Model):
         posts = Post.objects.filter(profile=self)
         return posts
 
+    def get_post_num(self):
+        """Return the number of posts for a profile"""
+
+        posts = Post.objects.filter(profile=self)
+        return len(posts)
+
 
 class Post(models.Model):
     """Encapsulate the data of a post by an individual user"""
@@ -32,7 +38,7 @@ class Post(models.Model):
     # define the data attributes of the Profile object
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now=True)
-    caption = models.TextField(blank=True)
+    caption = models.TextField(blank=False)
 
     def __str__(self) -> str:
         """return a string representation of this model instance"""
