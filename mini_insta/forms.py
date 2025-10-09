@@ -8,11 +8,6 @@ from .models import *
 class CreatePostForm(forms.ModelForm):
     """A form to add a Post to the database"""
 
-    image_files = forms.ImageField(
-        required=False,
-        label="Upload your desired photo for the post",
-    )
-
     class Meta:
         """associate this form with a model from our database"""
 
@@ -33,4 +28,17 @@ class UpdateProfileForm(forms.ModelForm):
             "display_name": "Display name",
             "profile_image_url": "Profile image url",
             "bio_text": "Bio text",
+        }
+
+
+class UpdatePostForm(forms.ModelForm):
+    """A form to handle an update to a Post"""
+
+    class Meta:
+        """associate this form with a model from our database"""
+
+        model = Post
+        fields = ["caption"]
+        labels = {
+            "caption": "Caption",
         }

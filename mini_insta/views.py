@@ -93,3 +93,41 @@ class UpdateProfileView(UpdateView):
     model = Profile
     form_class = UpdateProfileForm
     template_name = "mini_insta/update_profile_form.html"
+
+
+class UpdatePostView(UpdateView):
+    """View class to handle update of a post based on its PK"""
+
+    model = Post
+    form_class = UpdatePostForm
+    template_name = "mini_insta/update_post_form.html"
+
+
+class DeletePostView(DeleteView):
+    """View class to handle delete of a profile based on its PK"""
+
+    model = Post
+    template_name = "mini_insta/delete_post_form.html"
+
+    def get_context_data(self, **kwargs):
+        """Return the dictionary of context vatiables for use in the template"""
+
+        context = super().get_context_data(**kwargs)
+
+        pk = self.kwargs["pk"]
+
+        post = Post.objects.get(pk=pk)
+        profile = post.profile
+
+        context["post"] = post
+        context["profile"] = profile
+
+        return context
+
+    def get_success_url(self):
+        """Provide a URL to redirect to after deleting a Post"""
+
+        # create and return a URL
+        pk = self.kwargs["pk"]
+        profile_pk = Post.objects.get(pk=pk).profile.pk
+        return reverse("show_profile", kwargs={"pk": profile_pk})

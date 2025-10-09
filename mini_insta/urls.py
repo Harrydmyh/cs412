@@ -14,4 +14,9 @@ urlpatterns = [
         UpdateProfileView.as_view(),
         name="update_profile",
     ),
+    path(
+        "post/<int:pk>/delete",
+        DeletePostView.as_view(),
+        name="delete_profile",
+    ),
 ]

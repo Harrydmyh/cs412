@@ -11,6 +11,8 @@
         {% csrf_token %}
         <div id="post-field">
             {{ form.as_p }}
+            <label for="image_files">Upload your desired photo(s) for the post:</label>
+            <input type="file" name="image_files" id="image_files" multiple accept="image/*">
         </div>
 
         <div id="post-submit">
