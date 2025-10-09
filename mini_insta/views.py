@@ -4,7 +4,13 @@
 
 from django.db.models.base import Model as Model
 from django.urls import reverse
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 from .forms import *
 from .models import *
 
@@ -70,8 +76,20 @@ class CreatePostView(CreateView):
         response = super().form_valid(form)
 
         if self.request.POST:
-            image_url = self.request.POST["image_url"]
-            if image_url != "":
-                Photo.objects.create(post=self.object, image_url=image_url)
+            # image_url = self.request.POST["image_url"]
+            # if image_url != "":
+            #     Photo.objects.create(post=self.object, image_url=image_url)
+            files = self.request.FILES.getlist("image_files")
+            if len(files) != 0:
+                for file in files:
+                    Photo.objects.create(post=self.object, image_file=file)
 
         return response
+
+
+class UpdateProfileView(UpdateView):
+    """View class to handle update of an article based on its PK"""
+
+    model = Profile
+    form_class = UpdateProfileForm
+    template_name = "blog/update_profile_form.html"

@@ -1,12 +1,12 @@
-<!-- mini_insta/create_post_form.html -->
-<!-- website to create a new post -->
+<!-- mini_insta/update_profile_form.html -->
+<!-- website to update an existing profile -->
 
 {% extends "mini_insta/base.html" %}
 
 {% block content %}
 <main>
-    <h1>Create a new post</h1>
-    <form action="{% url 'create_post' profile.pk %}" method="post"
+    <h1>Update your profile</h1>
+    <form action="{% url 'update_profile' profile.pk %}" method="post"
         enctype="multipart/form-data">
         {% csrf_token %}
         <div id="post-field">

@@ -58,8 +58,15 @@ class Photo(models.Model):
     # define the data attributes of the Profile object
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     image_url = models.URLField(blank=True)
+    image_file = models.ImageField(blank=True)
     timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         """return a string representation of this model instance"""
         return f"Image for comment by {self.post.profile.display_name} on {self.post.timestamp}"
+
+    def get_image_url(self):
+        if self.image_file:
+            return self.image_file.url
+        else:
+            return self.image_url
