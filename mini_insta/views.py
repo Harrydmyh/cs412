@@ -88,8 +88,8 @@ class CreatePostView(CreateView):
 
 
 class UpdateProfileView(UpdateView):
-    """View class to handle update of an article based on its PK"""
+    """View class to handle update of a profile based on its PK"""
 
     model = Profile
     form_class = UpdateProfileForm
-    template_name = "blog/update_profile_form.html"
+    template_name = "mini_insta/update_profile_form.html"

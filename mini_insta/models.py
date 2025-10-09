@@ -1,6 +1,7 @@
 # mini-insta/models.py
 # model for the mini-insta application
 from django.db import models
+from django.urls import reverse
 
 
 # Create your models here.
@@ -30,6 +31,13 @@ class Profile(models.Model):
 
         posts = Post.objects.filter(profile=self)
         return len(posts)
+
+    def get_absolute_url(self):
+        """Provide a URL to redirect to after updating a profile"""
+
+        # create and return a URL
+        pk = self.pk
+        return reverse("show_profile", kwargs={"pk": pk})
 
 
 class Post(models.Model):
