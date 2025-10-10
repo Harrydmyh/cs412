@@ -181,6 +181,10 @@ main h1 {
     text-align: left;
 }
 
+#text button{
+    text-align: left;
+}
+
 #post-grid-container-detail h3 {
     font-family: 'Playfair Display', serif;
     font-size: calc(2px + 1.5vw);
@@ -216,45 +220,63 @@ form p label {
     font-weight: 600;
 }
 
+.file-upload-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+.file-upload-container label {
+    display: block;
+    margin-bottom: 1%;
+    font-family: 'Playfair Display', serif;
+    font-size: calc(2px + 1.3vw);
+    font-weight: 600;
+}
+
+.file-upload-container input[type="file"] {
+    font-size: calc(2px + 1vw);
+    background-color: #f8f9fa;
+}
+
 #post-field input, #post-field  textarea {
     width: 50%;
     margin-bottom: 5%;
 }
 
-/* Button container */
-#post-submit {
+.submit {
     display: flex;
     gap: 12px;
     margin-top: 20px;
-  }
-
-#post-submit input {
-padding: 12px 28px;
-border: none;
-border-radius: 6px;
-font-size: 16px;
-font-weight: 600;
-cursor: pointer;
-transition: all 0.3s ease;
 }
 
-#post-submit input[type="submit"] {
+.submit input {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit input[type="submit"] {
     background-color: blue;
     color: white;
     box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
 }
 
-#post-submit input[type="submit"]:hover {
+.submit input[type="submit"]:hover {
     background-color: #0056b3;
 }
 
-#post-submit input[type="button"] {
+.submit input[type="button"] {
     background-color: blue;
     color: white;
     box-shadow: 0 2px 5px rgba(108, 117, 125, 0.3);
 }
 
-#post-submit input[type="button"]:hover {
+.submit input[type="button"]:hover {
     background-color: #0056b3;
 }
 

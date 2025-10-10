@@ -11,11 +11,13 @@
         {% csrf_token %}
         <div id="post-field">
             {{ form.as_p }}
-            <label for="image_files">Upload your desired photo(s) for the post:</label>
-            <input type="file" name="image_files" id="image_files" multiple accept="image/*">
+            <div class="file-upload-container">
+                <label for="image_files">Upload your desired photo(s) for the post:</label>
+                <input type="file" name="image_files" id="image_files" multiple accept="image/*">
+            </div>
         </div>
 
-        <div id="post-submit">
+        <div class="submit">
             <input type="submit" name="submit" value="Submit">
             <a href="{% url 'show_profile' profile.pk %}">
                 <input type="button" name="cancel" value="Cancel">

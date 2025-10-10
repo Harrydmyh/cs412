@@ -19,9 +19,11 @@
             <p>{{ profile.bio_text|linebreaks }}</p>
             <br>
             <p>Joined on {{ profile.join_date }}</p>
-            <a href="{% url 'update_profile' profile.pk %}">
-                <button>Update profile</button>
-            </a>
+            <div class="submit">
+                <a href="{% url 'update_profile' profile.pk %}">
+                    <input type="button" name="update" value="Update profile">
+                </a>
+            </div>
         </div>
     </div>
     <div id="post">
