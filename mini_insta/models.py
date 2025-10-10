@@ -9,11 +9,11 @@ class Profile(models.Model):
     """Encapsulate the data of the profile of an individual user"""
 
     # define the data attributes of the Profile object
-    username = models.TextField(blank=True)
-    display_name = models.TextField(blank=True)
-    profile_image_url = models.URLField(blank=True)
+    username = models.TextField(blank=False)
+    display_name = models.TextField(blank=False)
+    profile_image_url = models.URLField(blank=False)
     bio_text = models.TextField(blank=True)
-    join_date = models.DateField(blank=True)
+    join_date = models.DateField(blank=False)
 
     def __str__(self) -> str:
         """return a string representation of this model instance"""
@@ -51,6 +51,13 @@ class Post(models.Model):
     def __str__(self) -> str:
         """return a string representation of this model instance"""
         return f"Comment by {self.profile.display_name} on {self.timestamp}"
+
+    def get_absolute_url(self):
+        """Provide a URL to redirect to after updating a profile"""
+
+        # create and return a URL
+        pk = self.pk
+        return reverse("show_post", kwargs={"pk": pk})
 
     def get_all_photos(self):
         """Return a QuerySet of comments about this post"""

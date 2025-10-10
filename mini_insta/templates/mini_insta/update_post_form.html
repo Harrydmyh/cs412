@@ -1,0 +1,24 @@
+<!-- mini_insta/update_post_form.html -->
+<!-- website to update an existing post -->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+<main>
+    <h1>Update your post</h1>
+    <form action="{% url 'update_post' post.pk %}" method="post"
+        enctype="multipart/form-data">
+        {% csrf_token %}
+        <div id="post-field">
+            {{ form.as_p }}
+        </div>
+
+        <div id="post-submit">
+            <input type="submit" name="submit" value="Update">
+            <a href="{% url 'show_post' post.pk %}">
+                <input type="button" name="cancel" value="Cancel">
+            </a>
+        </div>
+    </form>
+</main>
+{% endblock %}
