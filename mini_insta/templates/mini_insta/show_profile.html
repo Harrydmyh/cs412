@@ -6,15 +6,15 @@
 
 {% block content %}
 <main>
-    <div id="grid-container-detail">
+    <div class="grid-container-detail">
         <img src={{profile.profile_image_url}} alt="profile_image">
         <div id="text">
             <h2>{{ profile.username }}</h2>
             <h3>{{ profile.display_name }}</h3>
             <p>
-                {{profile.get_post_num}} <b>Posts</b> &nbsp;&nbsp;
-                TBD <b>Followers</b> &nbsp;&nbsp;
-                TBD <b>Following</b>
+                {{profile.get_num_posts}} <b>Posts</b> &nbsp;&nbsp;
+                <a href="{% url 'show_followers' profile.pk %}">{{profile.get_num_followers}} <b>Followers</b> </a>  &nbsp;&nbsp;
+                <a href="{% url 'show_following' profile.pk %}">{{profile.get_num_following}} <b>Following</b> </a>
             </p>
             <br>
             <p>{{ profile.bio_text|linebreaks }}</p>

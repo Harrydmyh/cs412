@@ -94,7 +94,7 @@ main h1 {
     margin: auto;
 }
 
-#grid-container-detail {
+.grid-container-detail {
     display: flex;
     flex-direction: row;
     gap: 50px;
@@ -106,7 +106,27 @@ main h1 {
     border-bottom: 1.5px solid #d8d0d0;
 }
 
-#grid-container-detail img {
+.grid-container-detail a {
+    width: 25%;
+    text-decoration: none;
+    color: black;
+}
+
+#follower_img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#following_img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.grid-container-detail img {
     width: 25%;
     height: 25%;
     object-fit: cover;
@@ -117,21 +137,21 @@ main h1 {
     text-align: left;
 }
 
-#grid-container-detail h2 {
+.grid-container-detail h2 {
     font-family: 'Playfair Display', serif;
     font-size: calc(2px + 1.8vw);
     max-width: 90%;
     margin-bottom: 10px;
 }
 
-#grid-container-detail h3 {
+.grid-container-detail h3 {
     font-family: 'Playfair Display', serif;
     font-size: calc(2px + 1.5vw);
     max-width: 90%;
     margin-bottom: 20px;
 }
 
-#grid-container-detail p {
+.grid-container-detail p {
     font-family: 'Playfair Display', serif;
     font-size: calc(2px + 1.3vw);
 }

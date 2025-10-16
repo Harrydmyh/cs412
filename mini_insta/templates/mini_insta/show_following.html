@@ -1,0 +1,22 @@
+<!-- mini_insta/show_following.html -->
+<!-- website to show one of the profiles -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025 -->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+<main>
+    <h1>Who is {{profile.username}} following</h1>
+    {% for following in profile.get_following %}
+    <div class="grid-container-detail">
+        <a href="{% url 'show_profile' following.profile.pk %}">
+            <img src="{{following.profile.profile_image_url}}" alt="profile_image" id="following_img">
+        </a>
+        <div id="text">
+            <h2>{{ following.profile.username }}</h2>
+            <h3>{{ following.profile.display_name }}</h3>
+        </div>
+    </div>
+    {% endfor %}
+</main>
+{% endblock %}

@@ -134,3 +134,19 @@ class DeletePostView(DeleteView):
         pk = self.kwargs["pk"]
         profile_pk = Post.objects.get(pk=pk).profile.pk
         return reverse("show_profile", kwargs={"pk": profile_pk})
+
+
+class ShowFollowersDetailView(DetailView):
+    """Define a view class to show profiles of followers"""
+
+    model = Profile
+    template_name = "mini_insta/show_followers.html"
+    context_object_name = "profile"
+
+
+class ShowFollowingDetailView(DetailView):
+    """Define a view class to show profiles of following"""
+
+    model = Profile
+    template_name = "mini_insta/show_following.html"
+    context_object_name = "profile"

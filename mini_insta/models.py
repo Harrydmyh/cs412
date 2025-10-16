@@ -22,17 +22,43 @@ class Profile(models.Model):
         return f"{self.display_name}"
 
     def get_all_posts(self):
-        """Return a QuerySet of comments about this post"""
+        """Return a QuerySet of comments about this profile"""
 
-        # use the object manager to retrieve comments
+        # use the object manager to retrieve posts
         posts = Post.objects.filter(profile=self)
         return posts
 
-    def get_post_num(self):
+    def get_num_posts(self):
         """Return the number of posts for a profile"""
 
         posts = Post.objects.filter(profile=self)
         return len(posts)
+
+    def get_followers(self):
+        """Return a QuerySet of followers of this profile"""
+
+        # use the object manager to retrieve followers
+        followers = Follow.objects.filter(profile=self)
+        return followers
+
+    def get_num_followers(self):
+        """Return the number of followers for a profile"""
+
+        followers = Follow.objects.filter(profile=self)
+        return len(followers)
+
+    def get_following(self):
+        """Return a QuerySet of followers of this profile"""
+
+        # use the object manager to retrieve following
+        following = Follow.objects.filter(follower_profile=self)
+        return following
+
+    def get_num_following(self):
+        """Return the number of followers for a profile"""
+
+        following = Follow.objects.filter(follower_profile=self)
+        return len(following)
 
     def get_absolute_url(self):
         """Provide a URL to redirect to after updating a profile"""
@@ -87,3 +113,22 @@ class Photo(models.Model):
             return self.image_file.url
         else:
             return self.image_url
+
+
+class Follow(models.Model):
+    """Encapsulate the data of a profile associated to another profile"""
+
+    # define the data attributes of the Profile object
+    profile = models.ForeignKey(
+        Profile, related_name="profile", on_delete=models.CASCADE
+    )
+    follower_profile = models.ForeignKey(
+        Profile, related_name="follower_profile", on_delete=models.CASCADE
+    )
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        """return a string representation of this model instance"""
+        return (
+            f"{self.follower_profile.display_name} follows {self.profile.display_name}"
+        )

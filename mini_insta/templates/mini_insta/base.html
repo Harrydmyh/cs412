@@ -21,6 +21,8 @@
         <nav>
             {% if post.pk %}
             <a href="{% url 'show_profile' post.profile.pk %}">Back to profile</a>
+            {% elif profile.pk %}
+            <a href="{% url 'show_profile' profile.pk %}">Back to profile</a>
             {% endif %}
         </nav>
         {% block content %}
