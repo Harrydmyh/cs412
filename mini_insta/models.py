@@ -78,7 +78,7 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         """return a string representation of this model instance"""
-        return f"Comment by {self.profile.display_name} on {self.timestamp}"
+        return f"Post by {self.profile.display_name} on {self.timestamp}"
 
     def get_absolute_url(self):
         """Provide a URL to redirect to after updating a profile"""
@@ -88,11 +88,31 @@ class Post(models.Model):
         return reverse("show_post", kwargs={"pk": pk})
 
     def get_all_photos(self):
+        """Return a QuerySet of photos about this post"""
+
+        # use the object manager to retrieve photos
+        photos = Photo.objects.filter(post=self)
+        return photos
+
+    def get_all_comments(self):
         """Return a QuerySet of comments about this post"""
 
         # use the object manager to retrieve comments
-        photos = Photo.objects.filter(post=self)
-        return photos
+        comments = Comment.objects.filter(post=self)
+        return comments
+
+    def get_likes(self):
+        """Return a QuerySet of likes about this post"""
+
+        # use the object manager to retrieve comments
+        likes = Like.objects.filter(post=self)
+        return likes
+
+    def get_num_likes(self):
+        """Return the number of likes for a post"""
+
+        likes = Like.objects.filter(post=self)
+        return len(likes)
 
 
 class Photo(models.Model):
@@ -132,3 +152,30 @@ class Follow(models.Model):
         return (
             f"{self.follower_profile.display_name} follows {self.profile.display_name}"
         )
+
+
+class Comment(models.Model):
+    """Encapsulate the data of a comment associated to a post"""
+
+    # define the data attributes of the Profile object
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
+    text = models.TextField(blank=False)
+
+    def __str__(self) -> str:
+        """return a string representation of this model instance"""
+        return f"Comment by {self.profile.display_name} on {self.post.profile.display_name}'s post"
+
+
+class Like(models.Model):
+    """Encapsulate the idea of one profile providing approval of a post"""
+
+    # define the data attributes of the Profile object
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        """return a string representation of this model instance"""
+        return f"Like by {self.profile.display_name} on {self.post.profile.display_name}'s post"

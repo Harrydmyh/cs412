@@ -228,6 +228,18 @@ main h1 {
     margin-bottom: 10px;
 }
 
+#comments h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: calc(2px + 1.5vw);
+    max-width: 90%;
+    margin-bottom: 20px;
+}
+
+#comments p {
+    font-family: 'Playfair Display', serif;
+    font-size: calc(2px + 1.3vw);
+}
+
 form p {
     display: flex;
     flex-direction: column;

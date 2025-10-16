@@ -16,9 +16,9 @@
     <div id="post-container">
         <p>{{ post.caption }}</p>
         {% for photo in post.get_all_photos %}
-        <img src={{photo.get_image_url}} alt="post image">
-        {% empty %}
-        <img src="https://static.vecteezy.com/system/resources/previews/004/141/669/original/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg" alt="empty image">
+            <img src={{photo.get_image_url}} alt="post image">
+            {% empty %}
+            <img src="https://static.vecteezy.com/system/resources/previews/004/141/669/original/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg" alt="empty image">
         {% endfor %}
     </div>
     <div class="submit">
@@ -28,6 +28,20 @@
         <a href="{% url 'delete_post' post.pk %}">
             <input type="button" name="delete" value="Delete">
         </a>
+    </div>
+    <br>
+    <div id="comments">
+        {% if post.get_num_likes == 0 %}
+            <p>Liked by 0 person</p>
+        {% else %}
+            <p>Liked by <strong>{{ post.get_likes.first.profile.username }}</strong> and <strong>{{ post.get_num_likes|add:"-1" }}</strong> others</p>
+        {% endif %}
+        <br>
+        <h2>Comments:</h2>
+        {% for comment in post.get_all_comments %}
+            <p><strong>{{ comment.profile.username }}</strong> {{ comment.text }}</p>
+            <br>
+        {% endfor %}
     </div>
 </main>
 {% endblock %}
