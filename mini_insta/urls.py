@@ -1,5 +1,6 @@
 # mini-insta/urls.py
 # urls for the mini-insta application
+# Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025
 
 from django.urls import path
 from .views import *

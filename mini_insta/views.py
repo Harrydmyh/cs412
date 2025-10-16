@@ -1,5 +1,5 @@
 # File: mini_insta/views.py
-# Author: Yihang Duanmu (harrydm@bu.edu), 9/25/2025
+# Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025
 # Description: Views for the mini_insta application
 
 from django.db.models.base import Model as Model
@@ -60,6 +60,7 @@ class CreatePostView(CreateView):
 
         pk = self.kwargs["pk"]
 
+        # provide profile as a context
         profile = Profile.objects.get(pk=pk)
         context["profile"] = profile
 
@@ -75,6 +76,7 @@ class CreatePostView(CreateView):
 
         response = super().form_valid(form)
 
+        # include the images
         if self.request.POST:
             # image_url = self.request.POST["image_url"]
             # if image_url != "":
@@ -119,6 +121,7 @@ class DeletePostView(DeleteView):
         post = Post.objects.get(pk=pk)
         profile = post.profile
 
+        # provide post and profile as context
         context["post"] = post
         context["profile"] = profile
 

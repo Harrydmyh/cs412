@@ -1,3 +1,5 @@
+# Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025
+
 from django.contrib import admin
 
 # Register your models here.

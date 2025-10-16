@@ -1,5 +1,6 @@
 # mini-insta/forms.py
 # forms for creating post in the mini-insta application
+# Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025
 
 from django import forms
 from .models import *

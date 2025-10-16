@@ -1,5 +1,7 @@
 # mini-insta/models.py
 # model for the mini-insta application
+# Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025
+
 from django.db import models
 from django.urls import reverse
 
