@@ -40,4 +40,9 @@ urlpatterns = [
         PostFeedListView.as_view(),
         name="show_feed",
     ),
+    path(
+        "profile/<int:pk>/search",
+        SearchView.as_view(),
+        name="search",
+    ),
 ]

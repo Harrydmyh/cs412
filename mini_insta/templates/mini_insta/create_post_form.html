@@ -10,7 +10,7 @@
     <form action="{% url 'create_post' profile.pk %}" method="post"
         enctype="multipart/form-data">
         {% csrf_token %}
-        <div id="post-field">
+        <div class="post-field">
             {{ form.as_p }}
             <div class="file-upload-container">
                 <label for="image_files">Upload your desired photo(s) for the post:</label>

@@ -280,7 +280,7 @@ form p label {
     background-color: #f8f9fa;
 }
 
-#post-field input, #post-field  textarea {
+.post-field input, .post-field  textarea {
     width: 50%;
     margin-bottom: 5%;
 }

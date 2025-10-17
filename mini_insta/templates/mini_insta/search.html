@@ -1,0 +1,20 @@
+<!-- mini_insta/search.html -->
+<!-- website to search for specific profiles and posts -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025 -->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+<main>
+    <h1>Search</h1>
+    <form method = 'GET' action="{% url 'search' profile.pk %}">
+        <div class="post-field">
+            <h2>Search for text, tags, or people:</h2>
+            <textarea rows=3 cols=60 name="query"></textarea>
+        </div>
+        <div class="submit">
+            <input type="submit" value="Search">
+        </div>
+    </form>
+</main>
+{% endblock %}

@@ -1,14 +1,33 @@
-<!-- mini_insta/show_feed.html -->
-<!-- website to show post feed for one profile -->
+<!-- mini_insta/search_results.html -->
+<!-- website to show search result -->
 <!-- Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025 -->
 
 {% extends "mini_insta/base.html" %}
 
 {% block content %}
 <main>
-    <h1>Feed</h1>
+    <h1>Search results</h1>
+    <h2>Profiles matching the query for "{{query}}"</h2>
+    {% if numProfiles == 0 %}
+    <br>
+    <h3>No Matching Profile</h3>
+    {% endif %}
+    {% for profile in profiles %}
+    <div class="grid-container-detail">
+        <a href="{% url 'show_profile' profile.pk %}">
+            <img src="{{profile.profile_image_url}}" alt="profile_image" id="follower_img">
+        </a>
+        <div id="text">
+            <h2>{{ profile.username }}</h2>
+            <h3>{{ profile.display_name }}</h3>
+        </div>
+    </div>
+    {% endfor %}
+    <br>
+    <h2>Posts matching the query for "{{query}}"</h2>
     {% if numPosts == 0 %}
-    <h2>Feed is Empty</h2>
+    <br>
+    <h3>No Matching Post</h3>
     {% endif %}
     {% for post in posts %}
         <div id="post-grid-container-detail">
