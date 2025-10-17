@@ -7,6 +7,7 @@
 {% block content %}
 <main>
     <h1>Search results</h1>
+    <!-- all results for profiles -->
     <h2>Profiles matching the query for "{{query}}"</h2>
     {% if numProfiles == 0 %}
     <br>
@@ -24,6 +25,7 @@
     </div>
     {% endfor %}
     <br>
+    <!-- all results for posts -->
     <h2>Posts matching the query for "{{query}}"</h2>
     {% if numPosts == 0 %}
     <br>
