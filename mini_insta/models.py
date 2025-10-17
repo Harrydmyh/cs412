@@ -60,6 +60,18 @@ class Profile(models.Model):
         following = Follow.objects.filter(follower_profile=self)
         return len(following)
 
+    def get_post_feed(self):
+        """Return a QuerySet of posts from this profile's following"""
+
+        # use the object manager to retrieve following
+        following = Follow.objects.filter(follower_profile=self).values_list(
+            "profile", flat=True
+        )
+
+        # get all posts
+        feed = Post.objects.filter(profile__in=following).order_by("-timestamp")
+        return feed
+
     def get_absolute_url(self):
         """Provide a URL to redirect to after updating a profile"""
 

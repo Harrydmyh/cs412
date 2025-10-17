@@ -1,0 +1,46 @@
+<!-- mini_insta/show_feed.html -->
+<!-- website to show post feed for one profile -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025 -->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+<main>
+    <h1>Feed</h1>
+    {% for post in posts %}
+        <div id="post-grid-container-detail">
+            <img src={{post.profile.profile_image_url}} alt="profile_image">
+            <div id="text">
+                <h3>{{ post.profile.display_name }}</h3>
+                <p>Posted on {{ post.timestamp.date }}</p>
+            </div>
+        </div>
+        <div id="post-container">
+            <p>{{ post.caption }}</p>
+            {% if post.get_all_photos %}
+                <a href="{% url 'show_post' post.pk %}">
+                    <img src={{post.get_all_photos.0.get_image_url}} alt="post image">
+                </a>
+            {% else %}
+                <a href="{% url 'show_post' post.pk %}">
+                    <img src="https://static.vecteezy.com/system/resources/previews/004/141/669/original/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg" alt="empty image">
+                </a>
+            {% endif %}
+        </div>
+        <br>
+        <div id="comments">
+            {% if post.get_num_likes == 0 %}
+                <p>Liked by 0 person</p>
+            {% else %}
+                <p>Liked by <strong>{{ post.get_likes.first.profile.username }}</strong> and <strong>{{ post.get_num_likes|add:"-1" }}</strong> others</p>
+            {% endif %}
+            <br>
+            <h2>Comments:</h2>
+            {% for comment in post.get_all_comments %}
+                <p><strong>{{ comment.profile.username }}</strong> {{ comment.text }}</p>
+                <br>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</main>
+{% endblock %}

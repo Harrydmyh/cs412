@@ -2,7 +2,9 @@
 # Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025
 # Description: Views for the mini_insta application
 
+from typing import Any
 from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet
 from django.urls import reverse
 from django.views.generic import (
     ListView,
@@ -38,6 +40,20 @@ class PostDetailView(DetailView):
     model = Post
     template_name = "mini_insta/show_post.html"
     context_object_name = "post"
+
+    def get_context_data(self, **kwargs):
+        """Return the dictionary of context vatiable for use in the template"""
+
+        context = super().get_context_data(**kwargs)
+
+        pk = self.kwargs["pk"]
+        post = Post.objects.get(pk=pk)
+        profile = post.profile
+
+        # provide profile as context
+        context["profile"] = profile
+
+        return context
 
 
 class CreatePostView(CreateView):
@@ -104,6 +120,20 @@ class UpdatePostView(UpdateView):
     form_class = UpdatePostForm
     template_name = "mini_insta/update_post_form.html"
 
+    def get_context_data(self, **kwargs):
+        """Return the dictionary of context vatiable for use in the template"""
+
+        context = super().get_context_data(**kwargs)
+
+        pk = self.kwargs["pk"]
+        post = Post.objects.get(pk=pk)
+        profile = post.profile
+
+        # provide profile as context
+        context["profile"] = profile
+
+        return context
+
 
 class DeletePostView(DeleteView):
     """View class to handle delete of a profile based on its PK"""
@@ -117,7 +147,6 @@ class DeletePostView(DeleteView):
         context = super().get_context_data(**kwargs)
 
         pk = self.kwargs["pk"]
-
         post = Post.objects.get(pk=pk)
         profile = post.profile
 
@@ -150,3 +179,30 @@ class ShowFollowingDetailView(DetailView):
     model = Profile
     template_name = "mini_insta/show_following.html"
     context_object_name = "profile"
+
+
+class PostFeedListView(ListView):
+    """Define a view class to show post feed of a profile"""
+
+    model = Post
+    template_name = "mini_insta/show_feed.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        pk = self.kwargs["pk"]
+        profile = Profile.objects.get(pk=pk)
+        queryset = profile.get_post_feed
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        """Return the dictionary of context vatiable for use in the template"""
+
+        context = super().get_context_data(**kwargs)
+
+        pk = self.kwargs["pk"]
+        profile = Profile.objects.get(pk=pk)
+
+        # provide profile as context
+        context["profile"] = profile
+
+        return context
