@@ -20,11 +20,13 @@
             <p>{{ profile.bio_text|linebreaks }}</p>
             <br>
             <p>Joined on {{ profile.join_date }}</p>
-            <div class="submit">
-                <a href="{% url 'update_profile' profile.pk %}">
-                    <input type="button" name="update" value="Update profile">
-                </a>
-            </div>
+            {% if profile.user == request.user %}
+                <div class="submit">
+                    <a href="{% url 'update_profile' %}">
+                        <input type="button" name="update" value="Update profile">
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
     <div id="post">

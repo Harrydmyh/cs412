@@ -21,14 +21,16 @@
             <img src="https://static.vecteezy.com/system/resources/previews/004/141/669/original/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg" alt="empty image">
         {% endfor %}
     </div>
-    <div class="submit">
-        <a href="{% url 'update_post' post.pk %}">
-            <input type="button" name="update" value="Update">
-        </a>
-        <a href="{% url 'delete_post' post.pk %}">
-            <input type="button" name="delete" value="Delete">
-        </a>
-    </div>
+    {% if profile.user == request.user %}
+        <div class="submit">
+            <a href="{% url 'update_post' post.pk %}">
+                <input type="button" name="update" value="Update">
+            </a>
+            <a href="{% url 'delete_post' post.pk %}">
+                <input type="button" name="delete" value="Delete">
+            </a>
+        </div>
+    {% endif %}
     <br>
     <div id="comments">
         {% if post.get_num_likes == 0 %}

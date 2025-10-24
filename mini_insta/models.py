@@ -1,9 +1,10 @@
 # mini-insta/models.py
 # model for the mini-insta application
-# Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025
+# Author: Yihang Duanmu (harrydm@bu.edu), 10/24/2025
 
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User  # for authentication
 
 
 # Create your models here.
@@ -16,6 +17,7 @@ class Profile(models.Model):
     profile_image_url = models.URLField(blank=False)
     bio_text = models.TextField(blank=True)
     join_date = models.DateField(blank=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         """return a string representation of this model instance"""

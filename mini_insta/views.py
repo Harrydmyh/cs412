@@ -4,8 +4,10 @@
 
 from typing import Any
 from django.db.models.base import Model as Model
+from django.db.models.query import QuerySet
 from django.urls import reverse
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     ListView,
     DetailView,
@@ -15,6 +17,15 @@ from django.views.generic import (
 )
 from .forms import *
 from .models import *
+
+
+class ProfileRequiredMixin(LoginRequiredMixin):
+    """
+    Require that a user be logged in before they can do anything that would modify the database
+    """
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 # Create your views here.
@@ -32,6 +43,9 @@ class ProfileDetailView(DetailView):
     model = Profile
     template_name = "mini_insta/show_profile.html"
     context_object_name = "profile"
+
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)
 
 
 class PostDetailView(DetailView):
@@ -56,7 +70,7 @@ class PostDetailView(DetailView):
         return context
 
 
-class CreatePostView(CreateView):
+class CreatePostView(ProfileRequiredMixin, CreateView):
     """A view to handle creation of a new Comment on an Article"""
 
     form_class = CreatePostForm
@@ -66,18 +80,15 @@ class CreatePostView(CreateView):
         """Provide a URL to redirect to after creating a new Post"""
 
         # create and return a URL
-        pk = self.kwargs["pk"]
-        return reverse("show_profile", kwargs={"pk": pk})
+        return reverse("show_logged_in_profile")
 
     def get_context_data(self):
         """Return the dictionary of context vatiables for use in the template"""
 
         context = super().get_context_data()
 
-        pk = self.kwargs["pk"]
-
         # provide profile as a context
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.get(user=self.request.user)
         context["profile"] = profile
 
         return context
@@ -105,15 +116,18 @@ class CreatePostView(CreateView):
         return response
 
 
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(ProfileRequiredMixin, UpdateView):
     """View class to handle update of a profile based on its PK"""
 
     model = Profile
     form_class = UpdateProfileForm
     template_name = "mini_insta/update_profile_form.html"
 
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)
 
-class UpdatePostView(UpdateView):
+
+class UpdatePostView(ProfileRequiredMixin, UpdateView):
     """View class to handle update of a post based on its PK"""
 
     model = Post
@@ -135,7 +149,7 @@ class UpdatePostView(UpdateView):
         return context
 
 
-class DeletePostView(DeleteView):
+class DeletePostView(ProfileRequiredMixin, DeleteView):
     """View class to handle delete of a profile based on its PK"""
 
     model = Post
@@ -181,7 +195,7 @@ class ShowFollowingDetailView(DetailView):
     context_object_name = "profile"
 
 
-class PostFeedListView(ListView):
+class PostFeedListView(ProfileRequiredMixin, ListView):
     """Define a view class to show post feed of a profile"""
 
     model = Post
@@ -193,8 +207,7 @@ class PostFeedListView(ListView):
 
         queryset = super().get_queryset()
 
-        pk = self.kwargs["pk"]
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.get(user=self.request.user)
         queryset = profile.get_post_feed()
         return queryset
 
@@ -202,9 +215,7 @@ class PostFeedListView(ListView):
         """Return the dictionary of context vatiable for use in the template"""
 
         context = super().get_context_data(**kwargs)
-
-        pk = self.kwargs["pk"]
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.get(user=self.request.user)
 
         # provide profile as context
         context["profile"] = profile
@@ -215,7 +226,7 @@ class PostFeedListView(ListView):
         return context
 
 
-class SearchView(ListView):
+class SearchView(ProfileRequiredMixin, ListView):
     """Define a view class to provide search on profiles and posts"""
 
     model = Post
@@ -224,16 +235,20 @@ class SearchView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         """called first to dispatch (handle) any request"""
+        response = super().dispatch(request, *args, **kwargs)
+
+        # redirect if user is not logged in
+        if getattr(response, "status_code", None) in (301, 302):
+            return response
 
         # check for query
         if "query" not in self.request.GET:
             # return search.html if query is absent
-            profile_pk = self.kwargs.get("pk")
-            profile = Profile.objects.get(pk=profile_pk)
+            profile = Profile.objects.get(user=self.request.user)
             template_name = "mini_insta/search.html"
             return render(request, template_name, {"profile": profile})
         else:
-            return super().dispatch(request, *args, **kwargs)
+            return response
 
     def get_queryset(self):
         """Return the set of posts for post feed"""
@@ -254,16 +269,15 @@ class SearchView(ListView):
         """Return the dictionary of context vatiable for use in the template"""
 
         context = super().get_context_data(**kwargs)
-
-        pk = self.kwargs["pk"]
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.get(user=self.request.user)
 
         # provide profile as context
         context["profile"] = profile
 
         # provide query as context
-        query = self.request.GET["query"]
-        context["query"] = query
+        query = self.request.GET.get("query", "")
+        if query:
+            context["query"] = query
 
         # provide posts that match the query as context
         posts = self.get_queryset()

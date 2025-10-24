@@ -7,7 +7,7 @@
 {% block content %}
 <main>
     <h1>Search</h1>
-    <form method = 'GET' action="{% url 'search' profile.pk %}">
+    <form method = 'GET' action="{% url 'search' %}">
         <div class="post-field">
             <h2>Search for text, tags, or people:</h2>
             <textarea rows=3 cols=60 name="query"></textarea>

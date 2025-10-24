@@ -16,10 +16,16 @@
     <div id="page_wrapper">
         <header>
         Mini-Instagram
+        <hr>
+        {% if request.user.is_authenticated %}
+        Logged in as: {{request.user}}
+        {% else %}
+        Not logged in.
+        {% endif %}
         </header>
         
         <nav>
-            {% if profile.pk %}
+            {% if profile.pk and profile.user == request.user %}
             <a href="{% url 'show_profile' profile.pk %}">Back to profile</a>
             {% endif %}
         </nav>
@@ -27,10 +33,10 @@
         {% endblock %}
         <footer>
         <a href="{% url 'show_all_profiles' %}">Back to All Profiles</a>
-        {% if profile.pk %}
-        <a href="{% url 'show_feed' profile.pk %}">View Your Feed</a>
-        <a href="{% url 'search' profile.pk %}">Search</a>
-        <a href="{% url 'create_post' profile.pk %}">Create Post</a>
+        {% if profile.pk and profile.user == request.user %}
+        <a href="{% url 'show_feed' %}">View Your Feed</a>
+        <a href="{% url 'search' %}">Search</a>
+        <a href="{% url 'create_post' %}">Create Post</a>
         {% endif %}
         </footer>
     </div>

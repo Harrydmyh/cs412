@@ -8,10 +8,11 @@ from .views import *
 urlpatterns = [
     path("", ProfileListView.as_view(), name="show_all_profiles"),
     path("profile/<int:pk>", ProfileDetailView.as_view(), name="show_profile"),
+    path("profile", ProfileDetailView.as_view(), name="show_logged_in_profile"),
     path("post/<int:pk>", PostDetailView.as_view(), name="show_post"),
-    path("profile/<int:pk>/create_post", CreatePostView.as_view(), name="create_post"),
+    path("profile/create_post", CreatePostView.as_view(), name="create_post"),
     path(
-        "profile/<int:pk>/update",
+        "profile/update",
         UpdateProfileView.as_view(),
         name="update_profile",
     ),
@@ -36,12 +37,12 @@ urlpatterns = [
         name="show_following",
     ),
     path(
-        "profile/<int:pk>/feed",
+        "profile/feed",
         PostFeedListView.as_view(),
         name="show_feed",
     ),
     path(
-        "profile/<int:pk>/search",
+        "profile/search",
         SearchView.as_view(),
         name="search",
     ),

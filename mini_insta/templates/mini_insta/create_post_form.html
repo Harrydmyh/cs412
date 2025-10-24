@@ -7,7 +7,7 @@
 {% block content %}
 <main>
     <h1>Create a new post</h1>
-    <form action="{% url 'create_post' profile.pk %}" method="post"
+    <form action="{% url 'create_post' %}" method="post"
         enctype="multipart/form-data">
         {% csrf_token %}
         <div class="post-field">
@@ -20,7 +20,7 @@
 
         <div class="submit">
             <input type="submit" name="submit" value="Submit">
-            <a href="{% url 'show_profile' profile.pk %}">
+            <a href="{% url 'show_logged_in_profile' %}">
                 <input type="button" name="cancel" value="Cancel">
             </a>
         </div>
