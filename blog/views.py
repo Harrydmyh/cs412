@@ -1,6 +1,8 @@
 # blog/view.py
 # views for the blog application
 from django.db.models.base import Model as Model
+from django.http import HttpRequest
+from django.http.response import HttpResponse as HttpResponse
 from django.views.generic import (
     ListView,
     DetailView,
@@ -9,6 +11,9 @@ from django.views.generic import (
     DeleteView,
 )
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from .models import Article, Comment
 from .forms import CreateArticleForm, CreateCommentForm, UpdateArticleForm
 import random
@@ -21,6 +26,15 @@ class ShowAllView(ListView):
     model = Article
     template_name = "blog/show_all.html"
     context_object_name = "articles"
+
+    def dispatch(self, request, *args, **kwargs):
+        """Override the dispatch method to add debugging information"""
+        if request.user.is_authenticated:
+            print(f"ShowallView.dispatch(): request.user={request.user}")
+        else:
+            print(f"ShowallView.dispatch(): not logged in")
+
+        return super().dispatch(request, *args, **kwargs)
 
 
 class ArticleView(DetailView):
@@ -47,7 +61,7 @@ class RandomArticleView(DetailView):
 
 
 # define a subclass of CreateView to handle creation of Article objects
-class CreateArticleView(CreateView):
+class CreateArticleView(LoginRequiredMixin, CreateView):
     """A view to handle creation of a new Article
     (1) display the HTML form to user (GET)
     (2) process the form submission and store the new Article object (POST)
@@ -56,11 +70,19 @@ class CreateArticleView(CreateView):
     form_class = CreateArticleForm
     template_name = "blog/create_article_form.html"
 
+    def get_login_url(self):
+        return reverse("login")
+
     def form_valid(self, form):
         """Override the default method to add some debug information"""
 
         # print out the form data
         print(f"CreateArticleView.form_valid(): {form.cleaned_data}")
+
+        # find the current user
+        user = self.request.user
+        print(f"CreateArticleView.form_valid(): {user}")
+        form.instance.user = user
 
         # delagate work to the superclass to do the rest:
         return super().form_valid(form)
@@ -128,3 +150,16 @@ class DeleteCommentView(DeleteView):
 
         # return the URL to redirect to
         return reverse("article", kwargs={"pk": article.pk})
+
+
+class UserRegistrationView(CreateView):
+    """A view to show/process the registration form to create a new User"""
+
+    template_name = "blog/register.html"
+    form_class = UserCreationForm
+    model = User
+
+    def get_success_url(self):
+        """The url to redirect to after creating a new User"""
+
+        return reverse("login")
