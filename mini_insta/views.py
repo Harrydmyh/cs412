@@ -44,6 +44,14 @@ class ProfileDetailView(DetailView):
     template_name = "mini_insta/show_profile.html"
     context_object_name = "profile"
 
+
+class LoggedInProfileDetailView(DetailView):
+    """Define a view class to show one profile"""
+
+    model = Profile
+    template_name = "mini_insta/show_profile.html"
+    context_object_name = "profile"
+
     def get_object(self):
         return Profile.objects.get(user=self.request.user)
 
@@ -97,8 +105,7 @@ class CreatePostView(ProfileRequiredMixin, CreateView):
         """This method handles the form submission and saves the new object to the Django database"""
 
         # retrieve the PK from the URL pattern
-        pk = self.kwargs["pk"]
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.get(user=self.request.user)
         form.instance.profile = profile
 
         response = super().form_valid(form)
