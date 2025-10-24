@@ -1,0 +1,31 @@
+<!-- mini_insta/login.html -->
+<!-- website for users to login -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 10/24/2025 -->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+
+<main>
+    <h1>Login to your profile</h1>
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <div class="submit">
+            <input type="submit" value="Login">
+            {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{request.GET.next}}">
+            {% else %}
+            <input type="hidden" name="next" value="{% url 'show_all_profiles' %}">
+            {% endif %}
+        </div>
+    </form>
+</main>
+
+<!-- <hr>
+Don't have an account?
+<a href="{% url 'register' %}">Register here</a> -->
+
+{% endblock %}

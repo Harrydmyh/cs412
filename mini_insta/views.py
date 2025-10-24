@@ -307,3 +307,10 @@ class SearchView(ProfileRequiredMixin, ListView):
         context["numPosts"] = posts.count()
 
         return context
+
+
+def logout(request):
+    """Return the logout page"""
+    template_name = "mini_insta/logout.html"
+
+    return render(request, template_name)

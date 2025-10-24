@@ -35,13 +35,37 @@ header {
 
 nav {
     padding-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px
 }
 
-nav a{
+nav a, #login_again a {
+    background: saddlebrown;
+    color: ivory;
+    padding: 12px 24px;
     font-size: calc(2px + 1.5vw);
-    font-weight: 100;
+    font-weight: 600;
     text-decoration: none;
-    color: saddlebrown;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+nav form button {
+    background: saddlebrown;
+    color: ivory;
+    padding: 12px 24px;
+    font-size: calc(2px + 1.5vw);
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 main {

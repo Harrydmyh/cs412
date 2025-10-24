@@ -25,8 +25,17 @@
         </header>
         
         <nav>
-            {% if profile.pk and profile.user == request.user %}
-            <a href="{% url 'show_profile' profile.pk %}">Back to profile</a>
+            <!-- URLs for authentication -->
+            {% if request.resolver_match.url_name not in 'login,logout,logout_confirmation' %}
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'show_logged_in_profile' %}">Your profile</a>
+                    <form method="POST" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                {% endif %}
             {% endif %}
         </nav>
         {% block content %}
