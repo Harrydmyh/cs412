@@ -1,22 +1,27 @@
-<!-- mini_insta/update_post_form.html -->
-<!-- website to update an existing post -->
+<!-- mini_insta/update_profile_form.html -->
+<!-- website to update an existing profile -->
 <!-- Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025 -->
 
 {% extends "mini_insta/base.html" %}
 
 {% block content %}
 <main>
-    <h1>Update your post</h1>
-    <form action="{% url 'update_post' post.pk %}" method="post"
+    <h1>Create your profile</h1>
+    <form action="{% url 'create_profile' %}" method="post"
         enctype="multipart/form-data">
         {% csrf_token %}
+        <div class="register-field">
+            {{ register.as_p }}
+        </div>
+        <br>
+        <br>
         <div class="post-field">
             {{ form.as_p }}
         </div>
 
         <div class="submit">
-            <input type="submit" name="submit" value="Update">
-            <a href="{% url 'show_post' post.pk %}">
+            <input type="submit" name="submit" value="Create">
+            <a href="{% url 'show_all_profiles' %}">
                 <input type="button" name="cancel" value="Cancel">
             </a>
         </div>

@@ -65,4 +65,9 @@ urlpatterns = [
         views.logout,
         name="logout_confirmation",
     ),
+    path(
+        "create_profile",
+        CreateProfileView.as_view(),
+        name="create_profile",
+    ),
 ]

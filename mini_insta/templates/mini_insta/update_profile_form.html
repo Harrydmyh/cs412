@@ -10,7 +10,7 @@
     <form action="{% url 'update_profile' %}" method="post"
         enctype="multipart/form-data">
         {% csrf_token %}
-        <div id="post-field">
+        <div class="post-field">
             {{ form.as_p }}
         </div>
 

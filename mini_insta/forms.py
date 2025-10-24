@@ -43,3 +43,19 @@ class UpdatePostForm(forms.ModelForm):
         labels = {
             "caption": "Caption",
         }
+
+
+class CreateProfileForm(forms.ModelForm):
+    """A form to add a Post to the database"""
+
+    class Meta:
+        """associate this form with a model from our database"""
+
+        model = Profile
+        fields = ["username", "display_name", "profile_image_url", "bio_text"]
+        labels = {
+            "username": "Mini-instagram username",
+            "display_name": "Display name",
+            "profile_image_url": "Profile image url",
+            "bio_text": "Bio text",
+        }

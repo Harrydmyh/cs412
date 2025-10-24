@@ -2,12 +2,11 @@
 # Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025
 # Description: Views for the mini_insta application
 
-from typing import Any
 from django.db.models.base import Model as Model
-from django.db.models.query import QuerySet
 from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import (
     ListView,
     DetailView,
@@ -314,3 +313,49 @@ def logout(request):
     template_name = "mini_insta/logout.html"
 
     return render(request, template_name)
+
+
+class CreateProfileView(CreateView):
+    """A view to create a new profile for a new User"""
+
+    template_name = "mini_insta/create_profile_form.html"
+    form_class = CreateProfileForm
+    model = Profile
+
+    def get_context_data(self, **kwargs):
+        """Return the dictionary of context vatiables for use in the template"""
+
+        context = super().get_context_data(**kwargs)
+
+        registrationForm = UserCreationForm
+
+        # provide the user creation form as context
+        context["register"] = registrationForm
+        return context
+
+    def form_valid(self, form):
+        """This method handles the form submission and saves the new object to the Django database"""
+
+        # include the images
+        if self.request.POST:
+            user_form = UserCreationForm(
+                {
+                    "username": self.request.POST.get("username"),
+                    "password1": self.request.POST.get("password1"),
+                    "password2": self.request.POST.get("password2"),
+                }
+            )
+            if user_form.is_valid():
+                user = user_form.save()
+
+        # retrieve the PK from the URL pattern
+        form.instance.user = user
+
+        response = super().form_valid(form)
+
+        return response
+
+    def get_success_url(self):
+        """The url to redirect to after creating a new User"""
+
+        return reverse("profile")

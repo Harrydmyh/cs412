@@ -304,9 +304,19 @@ form p label {
     background-color: #f8f9fa;
 }
 
+.register-field label {
+    width: 50%;
+    margin-top: 2%;
+}
+
+#id_username, #id_password1, #id_password2 {
+    width: 50%;
+    margin-bottom: 2%;
+}
+
 .post-field input, .post-field  textarea {
     width: 50%;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
 }
 
 .submit {
