@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from django.views.generic import (
     ListView,
     DetailView,
@@ -331,31 +332,48 @@ class CreateProfileView(CreateView):
 
         # provide the user creation form as context
         context["register"] = registrationForm
+
+        # account for errors in registering
+        if "user_form" in kwargs:
+            context["register"] = kwargs["user_form"]
+            print(context["register"])
+
         return context
 
     def form_valid(self, form):
         """This method handles the form submission and saves the new object to the Django database"""
 
-        # include the images
+        # Create a new user form from POST data
         if self.request.POST:
+            print(self.request.POST.getlist("username"))
             user_form = UserCreationForm(
                 {
-                    "username": self.request.POST.get("username"),
+                    "username": self.request.POST.getlist("username")[0],
                     "password1": self.request.POST.get("password1"),
                     "password2": self.request.POST.get("password2"),
                 }
             )
             if user_form.is_valid():
                 user = user_form.save()
+                # Log the user
+                login(
+                    self.request,
+                    user,
+                    backend="django.contrib.auth.backends.ModelBackend",
+                )
 
-        # retrieve the PK from the URL pattern
-        form.instance.user = user
+                # Link the profile to this new user
+                form.instance.user = user
 
-        response = super().form_valid(form)
-
-        return response
+                return super().form_valid(form)
+            # User form invalid — render same page with errors
+        return self.render_to_response(
+            self.get_context_data(
+                form=form, register=user_form, errors=user_form.errors
+            )
+        )
 
     def get_success_url(self):
         """The url to redirect to after creating a new User"""
 
-        return reverse("profile")
+        return reverse("show_logged_in_profile")

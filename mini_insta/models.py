@@ -16,7 +16,7 @@ class Profile(models.Model):
     display_name = models.TextField(blank=False)
     profile_image_url = models.URLField(blank=False)
     bio_text = models.TextField(blank=True)
-    join_date = models.DateField(blank=False)
+    join_date = models.DateField(blank=False, auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self) -> str:

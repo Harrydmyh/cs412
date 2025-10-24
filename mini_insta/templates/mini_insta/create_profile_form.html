@@ -7,6 +7,9 @@
 {% block content %}
 <main>
     <h1>Create your profile</h1>
+    {% if errors %}
+        {{ errors }}
+    {% endif %}
     <form action="{% url 'create_profile' %}" method="post"
         enctype="multipart/form-data">
         {% csrf_token %}
