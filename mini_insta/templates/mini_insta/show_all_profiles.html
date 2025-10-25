@@ -14,9 +14,15 @@
             <h3>{{profile.display_name}}</h3>
         </div>
         <div id="image">
-            <a href="{% url 'show_profile' profile.pk %}">
-            <img src={{profile.profile_image_url}} alt="profile_image">
-            </a>
+            {% if profile.user == request.user %}
+                <a href="{% url 'show_logged_in_profile' %}">
+                    <img src={{profile.profile_image_url}} alt="profile_image">
+                </a>
+            {% else %}
+                <a href="{% url 'show_profile' profile.pk %}">
+                <img src={{profile.profile_image_url}} alt="profile_image">
+                </a>
+            {% endif %}
         </div>
     </div>
     {% endfor %}

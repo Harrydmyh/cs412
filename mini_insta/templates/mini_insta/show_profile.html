@@ -26,6 +26,18 @@
                         <input type="button" name="update" value="Update profile">
                     </a>
                 </div>
+            {% elif is_following %}
+                <div class="submit">
+                    <a href="{% url 'delete_follow' %}">
+                        <input type="button" name="update" value="Unfollow">
+                    </a>
+                </div>
+            {% else %}
+            <div class="submit">
+                <a href="{% url 'create_follow' %}">
+                    <input type="button" name="update" value="Follow">
+                </a>
+            </div>
             {% endif %}
         </div>
     </div>

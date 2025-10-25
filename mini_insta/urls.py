@@ -70,4 +70,14 @@ urlpatterns = [
         CreateProfileView.as_view(),
         name="create_profile",
     ),
+    path(
+        "profile/<int:pk>/follow",
+        CreateFollowView.as_view(),
+        name="create_follow",
+    ),
+    path(
+        "profile/<int:pk>/delete_follow",
+        DeleeFollowView.as_view(),
+        name="delete_follow",
+    ),
 ]

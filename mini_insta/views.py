@@ -4,11 +4,12 @@
 
 from django.db.models.base import Model as Model
 from django.urls import reverse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.views.generic import (
+    View,
     ListView,
     DetailView,
     CreateView,
@@ -43,6 +44,16 @@ class ProfileDetailView(DetailView):
     model = Profile
     template_name = "mini_insta/show_profile.html"
     context_object_name = "profile"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = self.get_object()
+        user_profile = Profile.objects.get(user=self.request.user)
+        is_following = (
+            profile.get_followers().filter(follower_profile=user_profile).exists()
+        )
+        context["is_following"] = is_following
+        return context
 
 
 class LoggedInProfileDetailView(DetailView):
@@ -377,3 +388,45 @@ class CreateProfileView(CreateView):
         """The url to redirect to after creating a new User"""
 
         return reverse("show_logged_in_profile")
+
+
+class CreateFollowView(LoginRequiredMixin, View):
+    """Create a Follow relationship between logged-in user and another profile"""
+
+    def dispatch(self, request, *args, **kwargs):
+        # Get the profile to follow
+        profile_to_follow = Profile.objects.get(pk=kwargs["pk"])
+
+        # Get logged-in user's profile
+        logged_in_profile = Profile.objects.get(user=request.user)
+
+        if logged_in_profile != profile_to_follow:
+            # Create Follow object (use get_or_create to avoid duplicates)
+            Follow.objects.get_or_create(
+                profile=profile_to_follow,
+                follower_profile=logged_in_profile,
+            )
+
+        # Redirect back to the profile page
+        return redirect("show_profile", pk=profile_to_follow.pk)
+
+
+class DeleeFollowView(LoginRequiredMixin, View):
+    """Delete a Follow relationship between logged-in user and another profile"""
+
+    def dispatch(self, request, *args, **kwargs):
+        # Get the profile to follow
+        profile_to_unfollow = Profile.objects.get(pk=kwargs["pk"])
+
+        # Get logged-in user's profile
+        logged_in_profile = Profile.objects.get(user=request.user)
+
+        if logged_in_profile != profile_to_unfollow:
+            # Create Follow object (use get_or_create to avoid duplicates)
+            Follow.objects.filter(
+                profile=profile_to_unfollow,
+                follower_profile=logged_in_profile,
+            ).delete()
+
+        # Redirect back to the profile page
+        return redirect("show_profile", pk=profile_to_unfollow.pk)
