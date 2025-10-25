@@ -16,11 +16,10 @@
     <div id="page_wrapper">
         <header>
         Mini-Instagram
-        <hr>
         {% if request.user.is_authenticated %}
-        Logged in as: {{request.user}}
+        <h2>Welcome back: {{request.user}}</h2>
         {% else %}
-        Not logged in.
+        <h2>Please log in to enable all features</h2>
         {% endif %}
         </header>
         

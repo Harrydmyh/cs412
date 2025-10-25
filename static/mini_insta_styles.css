@@ -13,6 +13,15 @@ Description: the stylesheet for the mini_insta application */
     flex-grow: 1;
 }
 
+header h2 {
+    color: saddlebrown;
+    font-family: 'Playfair Display', serif;
+    font-size: calc(2px + 2.2vw);
+    font-weight: 700;
+    margin: 20px 0;
+    text-align: left;
+}
+
 body {
     background-color: ivory;
     color: black;
