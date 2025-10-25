@@ -20,24 +20,26 @@
             <p>{{ profile.bio_text|linebreaks }}</p>
             <br>
             <p>Joined on {{ profile.join_date }}</p>
-            {% if profile.user == request.user %}
+            {% if request.user.is_authenticated %}
+                {% if profile.user == request.user %}
+                    <div class="submit">
+                        <a href="{% url 'update_profile' %}">
+                            <input type="button" name="update" value="Update profile">
+                        </a>
+                    </div>
+                {% elif is_following %}
+                    <div class="submit">
+                        <a href="{% url 'delete_follow' profile.pk %}">
+                            <input type="button" name="update" value="Unfollow">
+                        </a>
+                    </div>
+                {% else %}
                 <div class="submit">
-                    <a href="{% url 'update_profile' %}">
-                        <input type="button" name="update" value="Update profile">
+                    <a href="{% url 'create_follow' profile.pk %}">
+                        <input type="button" name="update" value="Follow">
                     </a>
                 </div>
-            {% elif is_following %}
-                <div class="submit">
-                    <a href="{% url 'delete_follow' %}">
-                        <input type="button" name="update" value="Unfollow">
-                    </a>
-                </div>
-            {% else %}
-            <div class="submit">
-                <a href="{% url 'create_follow' %}">
-                    <input type="button" name="update" value="Follow">
-                </a>
-            </div>
+                {% endif %}
             {% endif %}
         </div>
     </div>

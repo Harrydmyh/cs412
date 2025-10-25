@@ -32,6 +32,22 @@
         </div>
     {% endif %}
     <br>
+    {% if request.user.is_authenticated and request.user != post.profile.user %}
+        {% if is_liked %}
+            <div class="submit">
+                <a href="{% url 'delete_like' post.pk %}">
+                    <input type="button" name="update" value="Unlike">
+                </a>
+            </div>
+        {% else %}
+        <div class="submit">
+            <a href="{% url 'create_like' post.pk %}">
+                <input type="button" name="update" value="Like">
+            </a>
+        </div>
+        {% endif %}
+    {% endif %}
+    <br>
     <div id="comments">
         {% if post.get_num_likes == 0 %}
             <p>Liked by 0 person</p>

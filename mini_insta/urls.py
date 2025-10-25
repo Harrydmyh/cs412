@@ -77,7 +77,17 @@ urlpatterns = [
     ),
     path(
         "profile/<int:pk>/delete_follow",
-        DeleeFollowView.as_view(),
+        DeleteFollowView.as_view(),
         name="delete_follow",
+    ),
+    path(
+        "post/<int:pk>/like",
+        CreateLikeView.as_view(),
+        name="create_like",
+    ),
+    path(
+        "post/<int:pk>/delete_like",
+        DeleteLikeView.as_view(),
+        name="delete_like",
     ),
 ]

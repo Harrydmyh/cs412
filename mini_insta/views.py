@@ -46,13 +46,18 @@ class ProfileDetailView(DetailView):
     context_object_name = "profile"
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        profile = self.get_object()
-        user_profile = Profile.objects.get(user=self.request.user)
-        is_following = (
-            profile.get_followers().filter(follower_profile=user_profile).exists()
-        )
-        context["is_following"] = is_following
+        # see if the person is being followed by this logged in user
+        if self.request.user.is_authenticated:
+            context = super().get_context_data(**kwargs)
+            profile = self.get_object()
+            user_profile = Profile.objects.get(user=self.request.user)
+            is_following = (
+                profile.get_followers().filter(follower_profile=user_profile).exists()
+            )
+            context["is_following"] = is_following
+        else:
+            context = super().get_context_data(**kwargs)
+            context["is_following"] = False
         return context
 
 
@@ -85,6 +90,16 @@ class PostDetailView(DetailView):
 
         # provide profile as context
         context["profile"] = profile
+
+        # see if the post is being liked by this logged in user
+        if self.request.user.is_authenticated:
+            context = super().get_context_data(**kwargs)
+            post = self.get_object()
+            user_profile = Profile.objects.get(user=self.request.user)
+            is_liked = post.get_likes().filter(profile=user_profile).exists()
+            context["is_liked"] = is_liked
+        else:
+            context["is_liked"] = False
 
         return context
 
@@ -411,7 +426,7 @@ class CreateFollowView(LoginRequiredMixin, View):
         return redirect("show_profile", pk=profile_to_follow.pk)
 
 
-class DeleeFollowView(LoginRequiredMixin, View):
+class DeleteFollowView(LoginRequiredMixin, View):
     """Delete a Follow relationship between logged-in user and another profile"""
 
     def dispatch(self, request, *args, **kwargs):
@@ -430,3 +445,45 @@ class DeleeFollowView(LoginRequiredMixin, View):
 
         # Redirect back to the profile page
         return redirect("show_profile", pk=profile_to_unfollow.pk)
+
+
+class CreateLikeView(LoginRequiredMixin, View):
+    """Create a Follow relationship between logged-in user and another profile"""
+
+    def dispatch(self, request, *args, **kwargs):
+        # Get the profile to follow
+        post_to_like = Post.objects.get(pk=kwargs["pk"])
+
+        # Get logged-in user's profile
+        logged_in_profile = Profile.objects.get(user=request.user)
+
+        if post_to_like.profile != logged_in_profile:
+            # Create Like object (use get_or_create to avoid duplicates)
+            Like.objects.get_or_create(
+                post=post_to_like,
+                profile=logged_in_profile,
+            )
+
+        # Redirect back to the profile page
+        return redirect("show_post", pk=post_to_like.pk)
+
+
+class DeleteLikeView(LoginRequiredMixin, View):
+    """Delete a Follow relationship between logged-in user and another profile"""
+
+    def dispatch(self, request, *args, **kwargs):
+        # Get the profile to follow
+        post_to_unlike = Post.objects.get(pk=kwargs["pk"])
+
+        # Get logged-in user's profile
+        logged_in_profile = Profile.objects.get(user=request.user)
+
+        if post_to_unlike.profile != logged_in_profile:
+            # Create Follow object (use get_or_create to avoid duplicates)
+            Like.objects.filter(
+                post=post_to_unlike,
+                profile=logged_in_profile,
+            ).delete()
+
+        # Redirect back to the profile page
+        return redirect("show_post", pk=post_to_unlike.pk)
