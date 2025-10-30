@@ -23,7 +23,7 @@ class Voter(models.Model):
 
     # Voting related information fields
     date_of_registration = models.DateField()
-    party_affiliation = models.CharField(max_length=1)
+    party_affiliation = models.CharField(max_length=2)
     precinct_number = models.CharField(max_length=2)
     v20state = models.BooleanField()
     v21town = models.BooleanField()

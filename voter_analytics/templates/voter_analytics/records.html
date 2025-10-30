@@ -1,0 +1,58 @@
+<!-- templates/marathon_analytics/results.html -->
+{% extends 'voter_analytics/base.html' %}
+ 
+{% block content %}
+<div class="container">
+    
+    <h1>Showing all Results</h1>
+ 
+    <!-- navigation links for different pages of results -->
+    <div class="row">
+        {% if is_paginated %}
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li>
+                    <span><a href="?page={{ page_obj.previous_page_number }}">Previous</a></span>
+                
+                </li>
+            {% endif %}
+                <li class="">
+                    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+                </li>
+            {% if page_obj.has_next %}
+                <li>
+                    <span><a href="?page={{ page_obj.next_page_number }}">Next</a></span>
+                </li>
+            {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+    
+	<!-- table of results -->
+    <div class="row">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Date of Birth</th>
+                <th>Party affiliation</th>       
+                <th>Voter score</th>
+            </tr>
+    
+            {% for r in records %}
+            <tr>
+                
+                <td>{{r.first_name}} {{r.last_name}}</td>
+                <td>{{r.residential_address}}</td>
+                <td>{{r.date_of_birth}}</td>
+                <td>{{r.party_affiliation}}</td>       
+                <td>{{r.voter_score}}</td>
+             
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+ 
+ 
+</div>    
+{% endblock %}
