@@ -52,7 +52,7 @@
             <tr>
                 
                 <td>{{r.place_overall}}</td>
-                <td>{{r.first_name}} {{r.last_name}}</a>
+                <td> <a href="{% url 'result_detail' r.pk %}">{{r.first_name}} {{r.last_name}}</a>
                 </td>
                 <td>{{r.ctz}}</td>
                 <td>{{r.city}}, {{r.state}}</td>
