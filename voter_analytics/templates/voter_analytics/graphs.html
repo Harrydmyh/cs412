@@ -1,0 +1,34 @@
+<!-- voter_analytics/graphs.html -->
+<!-- showing summary graphs for voter_analytics -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 10/30/2025 -->
+{% extends 'voter_analytics/base.html' %}
+ 
+{% block content %}
+<div class="container">
+    <h1>Showing summary data</h1>
+    <form method="get" action="{% url 'graphs' %}">
+        <table>
+            {{ search.as_table }}
+            <tr>
+                <td><input type="submit" value="Search"></td>
+                <td><a href="{% url 'graphs' %}" class="button">Clear search</a></td>
+            </tr>
+        </table>
+    </form>
+    <div class="row">
+        {{graph_div_birth_date|safe}} 
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        {{graph_div_party_affiliation|safe}} 
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        {{graph_div_elections|safe}} 
+    </div>
+</div>
+{% endblock %}

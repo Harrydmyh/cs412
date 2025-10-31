@@ -1,6 +1,6 @@
 <!-- voter_analytics/base.html -->
 <!-- base template for voter_analytics websites -->
-<!-- Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025 -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 10/30/2025 -->
 
 {% load static %}
 
@@ -17,9 +17,13 @@
         <header>
         Voter Analytics
         </header>
-        
         <nav>
+            <ul>
+                <li><a href="{% url 'voters' %}">Show all records</a></li>
+                <li><a href="{% url 'graphs' %}">Show summary results</a></li>
+            </ul>
         </nav>
+
         {% block content %}
         {% endblock %}
         <footer>

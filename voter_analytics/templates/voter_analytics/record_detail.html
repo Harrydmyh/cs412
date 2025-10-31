@@ -1,0 +1,51 @@
+<!-- voter_analytics/records.html -->
+<!-- showing individual voter record -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 10/30/2025 -->
+{% extends 'voter_analytics/base.html' %}
+ 
+{% block content %}
+<div class="container">
+    
+    <h1>Showing Record for {{r.first_name}} {{r.last_name}}</h1>
+	<!-- table of result -->
+    <div class="row">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Date of Birth</th>
+                <th>Date of Registration</th>
+                <th>Party affiliation</th> 
+                <th>precinct_number</th>       
+                <th>Voted in 20state</th>
+                <th>Voter in 21town</th>
+                <th>Voter in 21primary</th>
+                <th>Voter in 22general</th>
+                <th>Voter in 23town</th>
+                <th>Voter score</th>
+            </tr>
+            <tr>
+                
+                <td>{{r.first_name}} {{r.last_name}}</td>
+                <td>
+                    <a href="https://www.google.com/maps?q={{ r.residential_address|urlencode }}" target="_blank">
+                        {{ r.residential_address }}
+                    </a>
+                </td>
+                <td>{{r.date_of_birth}}</td>
+                <td>{{r.date_of_registration}}</td>
+                <td>{{r.party_affiliation}}</td>  
+                <td>{{r.precinct_number}}</td>     
+                <td>{{r.v20state}}</td>
+                <td>{{r.v21town}}</td>
+                <td>{{r.v21primary}}</td>
+                <td>{{r.v22general}}</td>
+                <td>{{r.v23town}}</td>      
+                <td>{{r.voter_score}}</td>
+             
+            </tr>
+        </table>
+    </div>
+ 
+</div>    
+{% endblock %}

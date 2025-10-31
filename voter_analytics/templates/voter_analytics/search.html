@@ -1,0 +1,101 @@
+<!-- voter_analytics/search.html -->
+<!-- search template for voter_analytics websites -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 10/30/2025 -->
+<h1>Search</h1>
+ 
+ 
+<table>
+<form action="{% url 'voters' %}">
+ 
+    <tr>
+        <th>Party Affiliation:</th>
+        <td>
+            <select name="party_affiliation">
+                <option value="">-- Select Party --</option>
+                <option value="A ">A</option>
+                <option value="AA">AA</option>
+                <option value="CC">CC</option>
+                <option value="D ">D</option>
+                <option value="E ">E</option>
+                <option value="EE">EE</option>
+                <option value="FF">FF</option>
+                <option value="G ">G</option>
+                <option value="GG">GG</option>
+                <option value="H ">H</option>
+                <option value="HH">HH</option>
+                <option value="J ">J</option>
+                <option value="K ">K</option>
+                <option value="L ">L</option>
+                <option value="O ">O</option>
+                <option value="P ">P</option>
+                <option value="Q ">Q</option>
+                <option value="R ">R</option>
+                <option value="S ">S</option>
+                <option value="T ">T</option>
+                <option value="U ">U</option>
+                <option value="V ">V</option>
+                <option value="W ">W</option>
+                <option value="X ">X</option>
+                <option value="Y ">Y</option>
+                <option value="Z ">Z</option>
+            </select>
+        </td>
+    </tr>
+
+    <tr>
+        <th>Minimum Date of Birth:</th>
+        <td>
+            <select name="min_dob">
+                <option value="">-- Select Year --</option>
+                {% for year in years %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+        </td>
+    </tr>
+
+    <tr>
+        <th>Maximum Date of Birth:</th>
+        <td>
+            <select name="max_dob">
+                <option value="">-- Select Year --</option>
+                {% for year in years %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+        </td>
+    </tr>
+
+    <tr>
+        <th>Voter Score:</th>
+        <td>
+            <select name="voter_score">
+                <option value="">-- Select Score --</option>
+                <option value="1">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </td>
+    </tr>
+
+    <tr>
+        <th>Voted in Elections:</th>
+        <td>
+            <label><input type="checkbox" name="v20state">2020 State</label><br>
+            <label><input type="checkbox" name="v21town">2021 Town</label><br>
+            <label><input type="checkbox" name="v21primary">2021 Primary</label><br>
+            <label><input type="checkbox" name="v22general">2022 General</label><br>
+            <label><input type="checkbox" name="v23town">2023 Town</label>
+        </td>
+    </tr>
+    
+    <tr>
+        <td><input type="submit" value="Search"></td>
+        <td></td>
+    </tr>
+    
+</form>
+</table>

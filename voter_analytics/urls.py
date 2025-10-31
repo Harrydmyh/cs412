@@ -7,5 +7,7 @@ from . import views
 
 urlpatterns = [
     # map the URL (empty string) to the view
-    path("", views.RecordListView.as_view(), name="voters"),
+    path("", views.VoterListView.as_view(), name="voters"),
+    path("voter/<int:pk>", views.VoterDetailView.as_view(), name="voter"),
+    path("graphs", views.GraphListView.as_view(), name="graphs"),
 ]
