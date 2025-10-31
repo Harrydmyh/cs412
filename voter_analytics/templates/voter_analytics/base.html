@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'mini_insta_styles.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'voter_analytics_styles.css' %}" type="text/css">
     <title>Voter Analytics | Base</title>
 </head>
 <body>
@@ -18,10 +18,8 @@
         Voter Analytics
         </header>
         <nav>
-            <ul>
-                <li><a href="{% url 'voters' %}">Show all records</a></li>
-                <li><a href="{% url 'graphs' %}">Show summary results</a></li>
-            </ul>
+            <a href="{% url 'voters' %}">Show all records</a>
+            <a href="{% url 'graphs' %}">Show summary results</a>
         </nav>
 
         {% block content %}

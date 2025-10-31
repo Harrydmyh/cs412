@@ -9,26 +9,23 @@
     <form method="get" action="{% url 'graphs' %}">
         <table>
             {{ search.as_table }}
-            <tr>
-                <td><input type="submit" value="Search"></td>
-                <td><a href="{% url 'graphs' %}" class="button">Clear search</a></td>
-            </tr>
         </table>
+        <div class="submit">
+            <input type="submit" value="Search">
+            <a href="{% url 'graphs' %}" class="button">
+                <input type="button" name="clear" value="Clear search">
+            </a>
+        </div>
     </form>
-    <div class="row">
-        {{graph_div_birth_date|safe}} 
-    </div>
-</div>
 
-<div class="container">
-    <div class="row">
-        {{graph_div_party_affiliation|safe}} 
-    </div>
-</div>
+<br>
+<h2>Voter distribution by year of birth</h2>
+{{graph_div_birth_date|safe}} 
+<br>
+<h2>Voter distribution by party affiliation</h2>
+{{graph_div_party_affiliation|safe}} 
+<br>
+<h2>Voter distribution by election</h2>
+{{graph_div_elections|safe}} 
 
-<div class="container">
-    <div class="row">
-        {{graph_div_elections|safe}} 
-    </div>
-</div>
 {% endblock %}

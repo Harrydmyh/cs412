@@ -6,24 +6,30 @@
 {% block content %}
 <div class="container">
     
-    <h1>Showing all Results</h1>
+    <h1>Showing all Voters</h1>
     <form method="get" action="{% url 'voters' %}">
         <table>
             {{ search.as_table }}
-            <tr>
-                <td><input type="submit" value="Search"></td>
-                <td><a href="{% url 'voters' %}" class="button">Clear search</a></td>
-            </tr>
         </table>
+        <div class="submit">
+            <input type="submit" value="Search">
+            <a href="{% url 'voters' %}" class="button">
+                <input type="button" name="clear" value="Clear search">
+            </a>
+        </div>
     </form>
+
+    <br>
+    <h2>Search Results</h2>
+    <br>
  
     <!-- navigation links for different pages of results -->
-    <div class="row">
+    <div class="pagination-container">
         {% if is_paginated %}
         <ul class="pagination">
             {% if page_obj.has_previous %}
                 <li>
-                    <span><a href="?page={{ page_obj.previous_page_number }}">Previous</a></span>
+                    <span><a href="?page={{ page_obj.previous_page_number }}">Previous page</a></span>
                 
                 </li>
             {% endif %}
@@ -32,7 +38,7 @@
                 </li>
             {% if page_obj.has_next %}
                 <li>
-                    <span><a href="?page={{ page_obj.next_page_number }}">Next</a></span>
+                    <span><a href="?page={{ page_obj.next_page_number }}">Next page</a></span>
                 </li>
             {% endif %}
             </ul>
@@ -40,7 +46,7 @@
     </div>
     
 	<!-- table of results -->
-    <div class="row">
+    <div class="table">
         <table>
             <tr>
                 <th>Name</th>
