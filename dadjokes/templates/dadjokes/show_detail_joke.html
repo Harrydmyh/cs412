@@ -1,0 +1,17 @@
+<!-- dadjokes/show_detail_joke.html -->
+<!-- display one joke -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 11/11/2025 -->
+{% extends 'dadjokes/base.html' %}
+
+{% block content %}
+<h1>Showing one joke</h1>
+
+<main class="grid-container">
+    <article>
+        <div>    
+            <h3>By {{joke.author}}</h3>
+            <p>{{joke.text}}</p>
+        </div>
+    </article>
+</main>
+{% endblock %}

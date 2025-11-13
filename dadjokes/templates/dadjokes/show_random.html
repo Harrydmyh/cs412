@@ -1,0 +1,19 @@
+<!-- dadjokes/show_random.html -->
+<!-- display one random joke and one random picture -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 11/11/2025 -->
+{% extends 'dadjokes/base.html' %}
+
+{% block content %}
+<h1>Showing random jokes and pictures</h1>
+
+<main class="grid-container">
+    <article>
+        <div>    
+            <p>
+                {{joke.text}}
+            </p>
+            <img src="{{picture.image_url}}" alt="picture">
+        </div>
+    </article>
+</main>
+{% endblock %}

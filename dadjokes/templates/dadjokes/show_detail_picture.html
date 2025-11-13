@@ -1,0 +1,17 @@
+<!-- dadjokes/show_detail_picture.html -->
+<!-- display one picture -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 11/11/2025 -->
+{% extends 'dadjokes/base.html' %}
+
+{% block content %}
+<h1>Showing one picture</h1>
+
+<main class="grid-container">
+    <article>
+        <div>    
+            <h3>By {{picture.author}}</h3>
+            <img src="{{picture.image_url}}" alt="picture">
+        </div>
+    </article>
+</main>
+{% endblock %}

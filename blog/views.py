@@ -171,7 +171,7 @@ from .serializers import *
 
 class ArticleListAPIView(generics.ListCreateAPIView):
     """
-    An API view to return a listing of Articles and to create an Articel
+    An API view to return a listing of Articles and to create an Article
     """
 
     queryset = Article.objects.all()

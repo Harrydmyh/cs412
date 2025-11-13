@@ -1,0 +1,24 @@
+<!-- dadjokes/base.html -->
+<!-- base template for dadjokes websites -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 11/11/2025 -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'dadjokes_styles.css' %}" type="text/css">
+    <title>Dadjokes | Base</title>
+</head>
+<body>
+    <div id="page_wrapper">
+        <header>
+        Dadjokes
+        </header>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
