@@ -82,6 +82,21 @@ class JokeRandomAPIView(generics.ListCreateAPIView):
     serializer_class = JokeSerializer
 
 
+class PictureRandomAPIView(generics.ListCreateAPIView):
+    """
+    An API view to return a random Picture
+    """
+
+    def get_queryset(self):
+        queryset = Picture.objects.all()
+        picture = list(queryset)
+        random_picture = random.choice(picture)
+        queryset = queryset.filter(pk=random_picture.pk)
+        return queryset
+
+    serializer_class = PictureSerializer
+
+
 class JokeListAPIView(generics.ListCreateAPIView):
     """
     An API view to return a listing of Jokes
