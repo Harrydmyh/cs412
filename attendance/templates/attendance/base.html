@@ -1,0 +1,48 @@
+<!-- mini_insta/base.html -->
+<!-- base template for mini_insta websites -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025 -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'attendance_styles.css' %}" type="text/css">
+    <title>Attendance | Base</title>
+</head>
+<body>
+    <div id="page_wrapper">
+        <header>
+        Attendance
+        </header>
+        
+        <!-- <nav> -->
+            <!-- URLs for authentication -->
+            <!-- {% if request.resolver_match.url_name not in 'login,logout,logout_confirmation,create_profile' %}
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'show_logged_in_profile' %}">Your profile</a>
+                    <form method="POST" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'create_profile' %}">Create Profile</a>
+                {% endif %}
+            {% endif %} -->
+        <!-- </nav> -->
+        {% block content %}
+        {% endblock %}
+        <!-- <footer>
+        <a href="{% url 'show_all_profiles' %}">Back to All Profiles</a>
+        {% if profile.pk and profile.user == request.user %}
+        <a href="{% url 'show_feed' %}">View Your Feed</a>
+        <a href="{% url 'search' %}">Search</a>
+        <a href="{% url 'create_post' %}">Create Post</a>
+        {% endif %}
+        </footer> -->
+    </div>
+</body>
+</html>

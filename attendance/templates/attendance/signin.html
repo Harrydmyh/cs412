@@ -1,0 +1,13 @@
+<!-- attendance/signin.html -->
+<!-- website to show signin page to students -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 12/2/2025 -->
+
+{% extends "attendance/base.html" %}
+
+{% block content %}
+<form>
+    <h1>Signing in to {{class.name}}</h1>
+    <p>Please answer the following question:</p>
+    <p>{{class.question}}</p>
+</form>
+{% endblock %}

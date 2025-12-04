@@ -1,0 +1,19 @@
+<!-- attendance/home.html -->
+<!-- website to show home page to students and instructors -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 12/2/2025 -->
+
+{% extends "attendance/base.html" %}
+
+{% block content %}
+<main>
+    <h1>Welcome back, {{profile.last_name}} {{profile.first_name}}</h1>
+    {% if profile.class_happening %}
+    <p>You have a class going on</p>
+    <p>{{profile.get_class_happening.name}}</p>
+    <a href="{% url 'signin' profile.get_class_happening.pk %}">Sign in to your class</a>
+    {% else %}
+    <p>No class yet</p>
+    {% endif %}
+    <a href="">View your attendance history</a>
+</main>
+{% endblock %}
