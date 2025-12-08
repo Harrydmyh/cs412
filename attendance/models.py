@@ -4,6 +4,7 @@
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
+from django.db.models import Q
 
 
 # Create your models here.
@@ -48,6 +49,42 @@ class Profile(models.Model):
         ).first()
         return classes
 
+    def get_lecture_participation(self):
+        lectures = Class.objects.filter(name=self.lecture).count()
+        participated = Attend.objects.filter(
+            student=self, session__name=self.lecture
+        ).count()
+
+        if lectures > 0:
+            percentage = (participated / lectures) * 100
+            return round(percentage, 2)
+        return 0.0
+
+    def get_discussion_participation(self):
+        discussion = Class.objects.filter(name=self.discussion).count()
+        participated = Attend.objects.filter(
+            student=self, session__name=self.discussion
+        ).count()
+
+        if discussion > 0:
+            percentage = (participated / discussion) * 100
+            return round(percentage, 2)
+        return 0.0
+
+    def get_total_participation(self):
+        total = Class.objects.filter(
+            Q(name=self.lecture) | Q(name=self.discussion)
+        ).count()
+        participated = Attend.objects.filter(
+            Q(student=self, session__name=self.lecture)
+            | Q(student=self, session__name=self.discussion)
+        ).count()
+
+        if total > 0:
+            percentage = (participated / total) * 100
+            return round(percentage, 2)
+        return 0.0
+
 
 class Class(models.Model):
     """Encapsulate the data of a class session"""
@@ -81,7 +118,7 @@ class Attend(models.Model):
 
     def __str__(self) -> str:
         """return a string representation of this model instance"""
-        return f"Student {self.student.first_name} {self.student.last_name} attending {self.session.session_time} in {self.session.classroom}"
+        return f"Student {self.student.first_name} {self.student.last_name} attending {self.session.session_time}"
 
 
 class Appeal(models.Model):
@@ -98,4 +135,4 @@ class Appeal(models.Model):
 
     def __str__(self) -> str:
         """return a string representation of this model instance"""
-        return f"Student {self.student.first_name} {self.student.last_name} appealing for {self.session.session_time} in {self.session.classroom}"
+        return f"Student {self.student.first_name} {self.student.last_name} appealing for {self.session.session_time}"

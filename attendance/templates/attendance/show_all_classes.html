@@ -1,0 +1,19 @@
+<!-- mini_insta/show_all_classes.html -->
+<!-- website to show all the classes -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 12/8/2025 -->
+
+{% extends "attendance/base.html" %}
+
+{% block content %}
+<main>
+    <h1>Showing all Classes</h1>
+    {% for class in classes %}
+    <div id="grid-container">
+        <div id="text">
+            <h2>{{class.name}} {{class.session_time}}</h2>
+            <a href="{% url 'delete_class' profile_pk=profile.pk pk=class.pk %}">Delete Class</a>
+        </div>
+    </div>
+    {% endfor %}
+</main>
+{% endblock %}

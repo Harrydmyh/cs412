@@ -1,0 +1,27 @@
+<!-- mini_insta/delete_class_form.html -->
+<!-- website to delette one class -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 12/8/2025 -->
+{% extends 'attendance/base.html' %}
+
+{% block content %}
+<main>
+    <h1>Delete your class</h1>
+    <h2>{{ class.name }} on {{ class.session_time }}</h2>
+    <h3>Are you sure you want to delete this class?</h3>
+
+    <!-- form to submit the delete request -->
+    <div class="submit">
+        <form method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Delete">
+        </form>
+
+        <!--  form to cancel the delete request -->
+        <form action="{% url 'show_all_classes' profile.pk %}" method="GET">
+            {% csrf_token %}
+            <input type="submit" value="Cancel">
+        </form>
+    </div>
+</main>
+
+{% endblock %}

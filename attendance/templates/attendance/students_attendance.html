@@ -1,0 +1,66 @@
+<!-- mini_insta/students_attend_classes.html -->
+<!-- website to show all students' attendance summary -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 12/8/2025 -->
+
+{% extends 'attendance/base.html' %}
+<h1>Attendance Report: CS 412</h1>
+ 
+{% block content %}
+<div class="container">
+    
+    <h1>Attendance Report: {{ profile.first_name }} {{ profile.last_name }}</h1>
+ 
+    <!-- navigation links for different pages of results -->
+    <div class="pagination-container">
+        {% if is_paginated %}
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li>
+                    <span><a href="?page={{ page_obj.previous_page_number }}">Previous page</a></span>
+                
+                </li>
+            {% endif %}
+                <li class="">
+                    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+                </li>
+            {% if page_obj.has_next %}
+                <li>
+                    <span><a href="?page={{ page_obj.next_page_number }}">Next page</a></span>
+                </li>
+            {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+    
+	<!-- table of results -->
+    <div class="table">
+        <table>
+            <tr>
+                <th>Class Session</th>
+                <th>Check-in Time</th>
+                <th>Location</th>
+                <th>Appeal</th> 
+            </tr>
+    
+            {% for r in records %}
+            <tr>
+                {% if r.attend_record %}
+                    <td>{{r.name}} on {{r.session_time}}</td>
+                    <td>{{r.attend_record.timestamp}}</td>
+                    <td>{{r.attend_record.latitude}}, {{r.attend_record.longitude}}</td>
+                    <td>n/a</td>
+                {% else %}
+                    <td>{{r.name}} on {{r.session_time}}</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                {% endif %}
+             
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+ 
+ 
+</div>    
+{% endblock %}
