@@ -8,6 +8,10 @@
 <form>
     <h1>Signing in to {{class.name}}</h1>
     <p>Please answer the following question:</p>
-    <p>{{class.question}}</p>
+    <p>Choose a number between 1 and 10.</p>
+    <input type="text" name="answer" placeholder="Your answer" required>
+    <div class="submit">
+        <input type="submit" name="submit" value="Sign in">
+    </div>
 </form>
 {% endblock %}

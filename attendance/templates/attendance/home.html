@@ -6,14 +6,20 @@
 
 {% block content %}
 <main>
-    <h1>Welcome back, {{profile.last_name}} {{profile.first_name}}</h1>
-    {% if profile.class_happening %}
-    <p>You have a class going on</p>
-    <p>{{profile.get_class_happening.name}}</p>
-    <a href="{% url 'signin' profile.get_class_happening.pk %}">Sign in to your class</a>
+    <h1>Welcome back, {{profile.first_name}} {{profile.last_name}}</h1>
+    {% if profile.is_instructor %}
+        <a href="{% url 'create_class' profile.pk %}">Create a new class</a>
+        <a href="">View all classes</a>
+        <a href="">View students' attendance</a>
     {% else %}
-    <p>No class yet</p>
+        {% if profile.class_happening %}
+            <p>You have a class going on</p>
+            <p>{{profile.get_class_happening.name}}</p>
+            <a href="{% url 'signin' profile.get_class_happening.pk %}">Sign in to your class</a>
+        {% else %}
+            <p>No class yet</p>
+        {% endif %}
+        <a href="">View your attendance history</a>
     {% endif %}
-    <a href="">View your attendance history</a>
 </main>
 {% endblock %}

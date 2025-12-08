@@ -31,7 +31,12 @@ class Profile(models.Model):
         classes = Class.objects.filter(
             session_time__gte=time_window_start, session_time__lte=time_window_end
         )
-        return classes.exists()
+        if classes.exists():
+            is_my_class = (
+                classes.first().name == self.lecture
+                or classes.first().name == self.discussion
+            )
+        return classes.exists() and is_my_class
 
     def get_class_happening(self):
         now = timezone.now()
@@ -50,15 +55,13 @@ class Class(models.Model):
     # define the data attributes of the Class object
     session_time = models.DateTimeField(blank=False)
     name = models.TextField(blank=False)
-    classroom = models.TextField(blank=False)
-    question = models.TextField(blank=False)
     answer = models.TextField(blank=False)
     latitude = models.FloatField(blank=False)
     longitude = models.FloatField(blank=False)
 
     def __str__(self) -> str:
         """return a string representation of this model instance"""
-        return f"Class at {self.session_time} in {self.classroom}"
+        return f"{self.name} at {self.session_time}"
 
 
 class Attend(models.Model):
