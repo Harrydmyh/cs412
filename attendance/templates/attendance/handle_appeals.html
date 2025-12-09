@@ -1,0 +1,49 @@
+<!-- attendance/handle_appeals.html -->
+<!-- website to handle all appeals submitted -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 12/8/2025 -->
+
+{% extends 'attendance/base.html' %}
+<h1>Attendance Report: CS 412</h1>
+ 
+{% block content %}
+<div class="container">
+    
+    <h1>Appeals</h1>
+ 
+    <!-- navigation links for different pages of results -->
+    <div class="pagination-container">
+        {% if is_paginated %}
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li>
+                    <span><a href="?page={{ page_obj.previous_page_number }}">Previous page</a></span>
+                
+                </li>
+            {% endif %}
+                <li class="">
+                    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+                </li>
+            {% if page_obj.has_next %}
+                <li>
+                    <span><a href="?page={{ page_obj.next_page_number }}">Next page</a></span>
+                </li>
+            {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+    
+    {% for appeal in appeals %}
+    <p>{{appeal.student.first_name}} {{appeal.student.last_name}} 
+        appealing for {{ appeal.session.name }} on {{ appeal.session.session_time }}</p>
+    <p>Reason: {{ appeal.reason }}</p>
+    <div class="submit">
+        <a href="{% url 'approve' appeal.pk %}">
+            <input type="button" name="approve" value="Approve">
+        </a>
+        <a href="{% url 'reject' appeal.pk %}">
+            <input type="button" name="reject" value="Reject">
+        </a>
+    </div>
+    {% endfor %}
+        
+{% endblock %}

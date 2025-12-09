@@ -10,28 +10,26 @@ from .views import *
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path("profile/<int:pk>", ProfileView.as_view(), name="profile_page"),
+    path("profile", ProfileView.as_view(), name="profile_page"),
     path("signin/<int:pk>", SigninView.as_view(), name="signin"),
+    path("profile/create_class", CreateClassView.as_view(), name="create_class"),
     path(
-        "profile/<int:pk>/create_class", CreateClassView.as_view(), name="create_class"
-    ),
-    path(
-        "profile/<int:pk>/show_all_classes",
+        "profile/show_all_classes",
         ShowAllClassesView.as_view(),
         name="show_all_classes",
     ),
     path(
-        "profile/<int:profile_pk>/class/<int:pk>/delete/",
+        "profile/class/<int:pk>/delete",
         DeleteClassView.as_view(),
         name="delete_class",
     ),
     path(
-        "profile/<int:pk>/student_attendance",
+        "profile/student_attendance",
         ShowStudentsInClassView.as_view(),
         name="student_attendance",
     ),
     path(
-        "profile/<int:pk>/attendance",
+        "profile/attendance",
         ShowStudentAttendence.as_view(),
         name="attendance",
     ),
@@ -51,4 +49,29 @@ urlpatterns = [
         name="logout_confirmation",
     ),
     path("my-profile/", redirect_to_my_profile, name="my_profile"),
+    path(
+        "profile/class/<int:pk>/attend",
+        CreateAttendView.as_view(),
+        name="mark_attendance",
+    ),
+    path(
+        "profile/class/<int:pk>/appeal",
+        AppealView.as_view(),
+        name="appeal",
+    ),
+    path(
+        "profile/handle_appeal",
+        HandleAppealsView.as_view(),
+        name="handle_appeal",
+    ),
+    path(
+        "profile/<int:pk>/approve",
+        ApproveView.as_view(),
+        name="approve",
+    ),
+    path(
+        "profile/<int:pk>/reject",
+        RejectView.as_view(),
+        name="reject",
+    ),
 ]

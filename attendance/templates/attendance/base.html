@@ -22,9 +22,7 @@
             <!-- URLs for authentication -->
             {% if request.resolver_match.url_name not in 'login,logout,logout_confirmation,create_profile' %}
                 {% if request.user.is_authenticated %}
-                    {% if profile.pk %}
-                        <a href="{% url 'profile_page' profile.pk %}">Return to home</a>
-                    {% endif %}
+                    <a href="{% url 'profile_page' %}">Return to home</a>
                     <form method="POST" action="{% url 'logout' %}">
                         {% csrf_token %}
                         <button type="submit">Logout</button>

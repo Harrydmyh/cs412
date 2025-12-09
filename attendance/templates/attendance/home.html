@@ -8,9 +8,10 @@
 <main>
     <h1>Welcome back, {{profile.first_name}} {{profile.last_name}}</h1>
     {% if profile.is_instructor %}
-        <a href="{% url 'create_class' profile.pk %}">Create a new class</a>
-        <a href="{% url 'show_all_classes' profile.pk %}">Manage classes</a>
-        <a href="{% url 'student_attendance' profile.pk %}">View students' attendance</a>
+        <a href="{% url 'create_class' %}">Create a new class</a>
+        <a href="{% url 'show_all_classes' %}">Manage classes</a>
+        <a href="{% url 'student_attendance' %}">View students' attendance</a>
+        <a href="{% url 'handle_appeal' %}">View appeals</a>
     {% else %}
         {% if profile.class_happening %}
             <p>You have a class going on</p>
@@ -19,7 +20,7 @@
         {% else %}
             <p>No class yet</p>
         {% endif %}
-        <a href="{% url 'attendance' profile.pk %}">View your attendance history</a>
+        <a href="{% url 'attendance' %}">View your attendance history</a>
     {% endif %}
 </main>
 {% endblock %}

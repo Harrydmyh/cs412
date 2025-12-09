@@ -5,13 +5,60 @@
 {% extends "attendance/base.html" %}
 
 {% block content %}
-<form>
-    <h1>Signing in to {{class.name}}</h1>
+<form method="POST" action="{% url 'mark_attendance' class.pk %}">
+    {% csrf_token %}
+    <h1>Signing in to {{class.name}} on {{class.session_time}}</h1>
     <p>Please answer the following question:</p>
     <p>Choose a number between 1 and 10.</p>
-    <input type="text" name="answer" placeholder="Your answer" required>
+    <select name="answer" required>
+        <option value="" disabled selected>Your answer</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+    <p>Latitude</p>
+    <input type="text" name="lat" id="lat" readonly>
+    <p>Longitude</p>
+    <input type="text" name="lng" id="lng" readonly>
+
     <div class="submit">
-        <input type="submit" name="submit" value="Sign in">
+        <input type="submit" id="submitBtn" value="Sign in" disabled>
     </div>
-</form>
+    </form>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                handlePosition,
+                handleError,
+                { enableHighAccuracy: true }
+            );
+        } else {
+            alert("Geolocation is not supported by your browser.");
+            document.getElementById("submitBtn").disabled = false;
+        }
+    });
+
+    function handlePosition(position) {
+        document.getElementById("lat").value = position.coords.latitude;
+        document.getElementById("lng").value = position.coords.longitude;
+
+        // Allow user to submit only after location is obtained
+        document.getElementById("submitBtn").disabled = false;
+    }
+
+    function handleError(error) {
+        alert("Could not get your location. Please enable location services to sign in.");
+        document.getElementById("submitBtn").disabled = true;
+    }
+    </script>
+
 {% endblock %}

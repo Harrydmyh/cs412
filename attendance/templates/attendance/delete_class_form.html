@@ -17,7 +17,7 @@
         </form>
 
         <!--  form to cancel the delete request -->
-        <form action="{% url 'show_all_classes' profile.pk %}" method="GET">
+        <form action="{% url 'show_all_classes' %}" method="GET">
             {% csrf_token %}
             <input type="submit" value="Cancel">
         </form>

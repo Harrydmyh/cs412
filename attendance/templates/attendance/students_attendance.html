@@ -49,11 +49,16 @@
                     <td>{{r.attend_record.timestamp}}</td>
                     <td>{{r.attend_record.latitude}}, {{r.attend_record.longitude}}</td>
                     <td>n/a</td>
+                {% elif r.appeal_record %}
+                    <td>{{r.name}} on {{r.session_time}}</td>
+                    <td>n/a</td>
+                    <td>n/a</td>
+                    <td>Appealed</td>
                 {% else %}
                     <td>{{r.name}} on {{r.session_time}}</td>
                     <td>n/a</td>
                     <td>n/a</td>
-                    <td>n/a</td>
+                    <td><a href="{% url 'appeal' r.pk %}">Appeal</a></td>
                 {% endif %}
              
             </tr>

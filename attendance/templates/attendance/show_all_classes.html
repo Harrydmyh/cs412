@@ -11,7 +11,7 @@
     <div id="grid-container">
         <div id="text">
             <h2>{{class.name}} {{class.session_time}}</h2>
-            <a href="{% url 'delete_class' profile_pk=profile.pk pk=class.pk %}">Delete Class</a>
+            <a href="{% url 'delete_class' pk=class.pk %}">Delete Class</a>
         </div>
     </div>
     {% endfor %}
