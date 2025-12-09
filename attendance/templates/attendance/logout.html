@@ -1,0 +1,15 @@
+<!-- attendance/logout.html -->
+<!-- website to log out of a profile -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 12/8/2025 -->
+
+{% extends "attendance/base.html" %}
+
+{% block content %}
+<main>
+    <h1>You are successfully logged out</h1>
+    <br>
+    <div id="login_again">
+        <a href="{% url 'login' %}">Login again</a>
+    </div>
+</main>
+{% endblock %}

@@ -2,21 +2,106 @@
 # views for the attendance application
 # Author: Yihang Duanmu (harrydm@bu.edu), 12/2/2025
 
-from typing import Any
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from .models import *
 from .forms import *
-import random
 from datetime import datetime, time
-import pytz
-from rest_framework import generics
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+
+
+class InstructorRequiredMixin(LoginRequiredMixin):
+    """
+    Require that user is logged in and is an instructor
+    """
+
+    login_url = "/attendance/login"
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You do not have permission to access this page.")
+        return super().handle_no_permission()
+
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+
+        # user must be logged in — handled by LoginRequiredMixin
+        if not user.is_authenticated:
+            return self.handle_no_permission()
+
+        # Ensure the user has a profile
+        try:
+            profile = Profile.objects.get(user=user)
+        except Exception:
+            return self.handle_no_permission()
+
+        # Check instructor flag
+        if not profile.is_instructor:
+            return self.handle_no_permission()
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+class StudentRequiredMixin(LoginRequiredMixin):
+    """
+    Require that user is logged in and is a student
+    """
+
+    login_url = "/attendance/login"
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You do not have permission to access this page.")
+        return super().handle_no_permission()
+
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+
+        # user must be logged in — handled by LoginRequiredMixin
+        if not user.is_authenticated:
+            return self.handle_no_permission()
+
+        # Ensure the user has a profile
+        try:
+            profile = Profile.objects.get(user=user)
+        except Exception:
+            return self.handle_no_permission()
+
+        # Check instructor flag
+        if profile.is_instructor:
+            return self.handle_no_permission()
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+class UserRequiredMixin(LoginRequiredMixin):
+    """
+    Require that user is logged in
+    """
+
+    login_url = "/attendance/login"
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You do not have permission to access this page.")
+        return super().handle_no_permission()
+
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+
+        # user must be logged in — handled by LoginRequiredMixin
+        if not user.is_authenticated:
+            return self.handle_no_permission()
+
+        return super().dispatch(request, *args, **kwargs)
 
 
 # Create your views here.
-class ProfileView(DetailView):
+class ProfileView(UserRequiredMixin, DetailView):
     """A view to show home page for students and instructor"""
 
     model = Profile
@@ -24,7 +109,7 @@ class ProfileView(DetailView):
     context_object_name = "profile"
 
 
-class SigninView(DetailView):
+class SigninView(StudentRequiredMixin, DetailView):
     """A view to show signin page for students"""
 
     model = Class
@@ -32,13 +117,20 @@ class SigninView(DetailView):
     context_object_name = "class"
 
 
-class CreateClassView(CreateView):
+class CreateClassView(InstructorRequiredMixin, CreateView):
     """A view to handle creation of a new Class"""
 
     model = Profile
     form_class = CreateClassForm
     context_object_name = "profile"
     template_name = "attendance/create_class_form.html"
+
+    def get_context_data(self, **kwargs):
+        """Return the dictionary of context variables for use in the template"""
+        context = super().get_context_data(**kwargs)
+        profile = Profile.objects.get(pk=self.kwargs["pk"])
+        context["profile"] = profile
+        return context
 
     def get_success_url(self):
         """Provide a URL to redirect to after creating a new Class"""
@@ -101,7 +193,7 @@ class CreateClassView(CreateView):
             return super().form_valid(form)
 
 
-class ShowAllClassesView(DetailView):
+class ShowAllClassesView(InstructorRequiredMixin, DetailView):
     """A view to show the list of classes for instructors"""
 
     model = Profile
@@ -116,7 +208,7 @@ class ShowAllClassesView(DetailView):
         return context
 
 
-class DeleteClassView(DeleteView):
+class DeleteClassView(InstructorRequiredMixin, DeleteView):
     """View class to handle delete of a class based on its PK"""
 
     model = Class
@@ -137,7 +229,7 @@ class DeleteClassView(DeleteView):
         return reverse("show_all_classes", kwargs={"pk": profile_pk})
 
 
-class ShowStudentsInClassView(ListView):
+class ShowStudentsInClassView(InstructorRequiredMixin, ListView):
     """View students attendance to classes"""
 
     model = Profile
@@ -151,8 +243,15 @@ class ShowStudentsInClassView(ListView):
         records = records.filter(is_instructor=False)
         return records
 
+    def get_context_data(self, **kwargs):
+        """Return the dictionary of context variables for use in the template"""
+        context = super().get_context_data(**kwargs)
+        profile = Profile.objects.get(pk=self.kwargs["pk"])
+        context["profile"] = profile
+        return context
 
-class ShowStudentAttendence(ListView):
+
+class ShowStudentAttendence(StudentRequiredMixin, ListView):
     """Student view of attendance to classes"""
 
     model = Profile
@@ -176,3 +275,16 @@ class ShowStudentAttendence(ListView):
         for r in context["records"]:
             r.attend_record = Attend.objects.filter(student=student, session=r).first()
         return context
+
+
+def logout(request):
+    """Return the logout page"""
+    template_name = "attendance/logout.html"
+
+    return render(request, template_name)
+
+
+def redirect_to_my_profile(request):
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    return redirect("profile_page", pk=profile.pk)

@@ -18,21 +18,23 @@
         Attendance
         </header>
         
-        <!-- <nav> -->
+        <nav>
             <!-- URLs for authentication -->
-            <!-- {% if request.resolver_match.url_name not in 'login,logout,logout_confirmation,create_profile' %}
-                {% if request.user.is_authenticated %} -->
-                    <!-- <a href="{% url 'show_logged_in_profile' %}">Your profile</a>
+            {% if request.resolver_match.url_name not in 'login,logout,logout_confirmation,create_profile' %}
+                {% if request.user.is_authenticated %}
+                    {% if profile.pk %}
+                        <a href="{% url 'profile_page' profile.pk %}">Return to home</a>
+                    {% endif %}
                     <form method="POST" action="{% url 'logout' %}">
                         {% csrf_token %}
                         <button type="submit">Logout</button>
-                    </form> -->
-                <!-- {% else %}
+                    </form>
+                {% else %}
                     <a href="{% url 'login' %}">Login</a>
-                    <a href="{% url 'create_profile' %}">Create Profile</a> -->
-                <!-- {% endif %}
-            {% endif %}  -->
-        <!-- </nav> -->
+                    <!-- <a href="{% url 'create_profile' %}">Create Profile</a> -->
+                {% endif %}
+            {% endif %}
+        </nav>
         {% block content %}
         {% endblock %}
         <!-- <footer>

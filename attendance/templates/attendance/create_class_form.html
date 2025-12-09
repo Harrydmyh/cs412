@@ -11,6 +11,9 @@
     </div>
     <div class="submit">
         <input type="submit" name="submit" value="Create class">
+        <a href="{% url 'profile_page' profile.pk %}">
+            <input type="button" name="cancel" value="Cancel">
+        </a>
     </div>
 </form>
 {% endblock %}

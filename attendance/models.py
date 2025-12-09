@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Q
+from django.contrib.auth.models import User  # for authentication
 
 
 # Create your models here.
@@ -16,8 +17,11 @@ class Profile(models.Model):
     last_name = models.TextField(blank=False)
     email = models.TextField(blank=False)
     is_instructor = models.BooleanField(blank=False)
-    lecture = models.TextField(blank=False)
-    discussion = models.TextField(blank=False)
+    lecture = models.TextField(blank=True)
+    discussion = models.TextField(blank=True)
+    user = models.ForeignKey(
+        User, related_name="attendance_user", on_delete=models.CASCADE
+    )
 
     def __str__(self) -> str:
         """return a string representation of this model instance"""
