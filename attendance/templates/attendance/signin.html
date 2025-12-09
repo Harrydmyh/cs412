@@ -5,33 +5,39 @@
 {% extends "attendance/base.html" %}
 
 {% block content %}
-<form method="POST" action="{% url 'mark_attendance' class.pk %}">
-    {% csrf_token %}
-    <h1>Signing in to {{class.name}} on {{class.session_time}}</h1>
-    <p>Please answer the following question:</p>
-    <p>Choose a number between 1 and 10.</p>
-    <select name="answer" required>
-        <option value="" disabled selected>Your answer</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-      </select>
-    <p>Latitude</p>
-    <input type="text" name="lat" id="lat" readonly>
-    <p>Longitude</p>
-    <input type="text" name="lng" id="lng" readonly>
+<main>
+    <form class="signin-form" method="POST" action="{% url 'mark_attendance' class.pk %}" >
+        {% csrf_token %}
+        <h1>Signing in to {{class.name}} on {{class.session_time}}</h1>
+        <div class="field">
+            <label>Choose a number between 1 and 10.</label>
+            <select name="answer" required>
+                <option value="" disabled selected>Your answer</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>
 
-    <div class="submit">
-        <input type="submit" id="submitBtn" value="Sign in" disabled>
-    </div>
+        <div class="field">
+            <label>Your Location</label>
+            <input type="text" id="location" readonly>
+            <input type="hidden" name="lat" id="lat">
+            <input type="hidden" name="lng" id="lng">
+        </div>
+
+        <div class="submit">
+            <input type="submit" id="submitBtn" value="Sign in" disabled>
+        </div>
     </form>
+</main>
 
     <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -48,8 +54,12 @@
     });
 
     function handlePosition(position) {
-        document.getElementById("lat").value = position.coords.latitude;
-        document.getElementById("lng").value = position.coords.longitude;
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        document.getElementById("lat").value = lat;
+        document.getElementById("lng").value = lng;
+        document.getElementById("location").value = `${lat}, ${lng}`;
 
         // Allow user to submit only after location is obtained
         document.getElementById("submitBtn").disabled = false;

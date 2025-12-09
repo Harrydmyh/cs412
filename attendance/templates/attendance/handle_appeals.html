@@ -6,44 +6,30 @@
 <h1>Attendance Report: CS 412</h1>
  
 {% block content %}
-<div class="container">
+<main>
     
     <h1>Appeals</h1>
  
-    <!-- navigation links for different pages of results -->
-    <div class="pagination-container">
-        {% if is_paginated %}
-        <ul class="pagination">
-            {% if page_obj.has_previous %}
-                <li>
-                    <span><a href="?page={{ page_obj.previous_page_number }}">Previous page</a></span>
-                
-                </li>
-            {% endif %}
-                <li class="">
-                    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
-                </li>
-            {% if page_obj.has_next %}
-                <li>
-                    <span><a href="?page={{ page_obj.next_page_number }}">Next page</a></span>
-                </li>
-            {% endif %}
-            </ul>
-        {% endif %}
-    </div>
+    <div class="class-list">
+        {% for appeal in appeals %}
+            <div class="class-card appeal-card">
     
-    {% for appeal in appeals %}
-    <p>{{appeal.student.first_name}} {{appeal.student.last_name}} 
-        appealing for {{ appeal.session.name }} on {{ appeal.session.session_time }}</p>
-    <p>Reason: {{ appeal.reason }}</p>
-    <div class="submit">
-        <a href="{% url 'approve' appeal.pk %}">
-            <input type="button" name="approve" value="Approve">
-        </a>
-        <a href="{% url 'reject' appeal.pk %}">
-            <input type="button" name="reject" value="Reject">
-        </a>
+                <div class="appeal-info">
+                    <h2>{{ appeal.student.first_name }} {{ appeal.student.last_name }}</h2>
+                    <p class="session">
+                        Appealing for {{ appeal.session.name }}  
+                        on {{ appeal.session.session_time }}
+                    </p>
+                    <p class="reason"><strong>Reason:</strong> {{ appeal.reason }}</p>
+                </div>
+    
+                <div class="appeal-actions">
+                    <a href="{% url 'approve' appeal.pk %}" class="approve-btn">Approve</a>
+                    <a href="{% url 'reject' appeal.pk %}" class="reject-btn">Reject</a>
+                </div>
+    
+            </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-        
+<main>        
 {% endblock %}

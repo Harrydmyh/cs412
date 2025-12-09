@@ -41,3 +41,45 @@ class CreateClassForm(forms.ModelForm):
                 }
             ),
         }
+
+
+class CreateProfileForm(forms.ModelForm):
+    """A form to add a Profile to the database"""
+
+    class Meta:
+        """associate this form with a model from our database"""
+
+        model = Profile
+        fields = ["first_name", "last_name", "lecture", "discussion"]
+        labels = {
+            "first_name": "First Name",
+            "last_name": "Last Name",
+            "Lecture": "Your Lecture Session",
+            "Discussion": "Your Discussion Session",
+        }
+        widgets = {
+            "first_name": forms.TextInput(
+                attrs={
+                    "size": 30,
+                    "class": "form-control",
+                }
+            ),
+            "last_name": forms.TextInput(
+                attrs={
+                    "size": 30,
+                }
+            ),
+            "lecture": forms.Select(
+                choices=[
+                    ("CS 412 A1", "CS 412 A1"),
+                    ("CS 412 B1", "CS 412 B1"),
+                ]
+            ),
+            "discussion": forms.Select(
+                choices=[
+                    ("CS 412 C1", "CS 412 C1"),
+                    ("CS 412 C2", "CS 412 C2"),
+                    ("CS 412 C3", "CS 412 C3"),
+                ]
+            ),
+        }

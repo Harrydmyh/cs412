@@ -8,19 +8,35 @@
 <main>
     <h1>Welcome back, {{profile.first_name}} {{profile.last_name}}</h1>
     {% if profile.is_instructor %}
-        <a href="{% url 'create_class' %}">Create a new class</a>
-        <a href="{% url 'show_all_classes' %}">Manage classes</a>
-        <a href="{% url 'student_attendance' %}">View students' attendance</a>
-        <a href="{% url 'handle_appeal' %}">View appeals</a>
+    <div class="instructor-dashboard">
+        <a class="dash-btn" href="{% url 'create_class' %}">Create a new class</a>
+        <a class="dash-btn" href="{% url 'show_all_classes' %}">Manage classes</a>
+        <a class="dash-btn" href="{% url 'student_attendance' %}">View all attendance</a>
+        <a class="dash-btn" href="{% url 'handle_appeal' %}">View appeals</a>
+    </div>
     {% else %}
+    <div class="student-dashboard">
+
         {% if profile.class_happening %}
-            <p>You have a class going on</p>
-            <p>{{profile.get_class_happening.name}}</p>
-            <a href="{% url 'signin' profile.get_class_happening.pk %}">Sign in to your class</a>
+            <div class="status-card active">
+                <h2>Class in Progress</h2>
+                <p class="class-name">{{ profile.get_class_happening.name }}</p>
+    
+                <a class="primary-btn"
+                   href="{% url 'signin' profile.get_class_happening.pk %}">
+                   Sign in to your class
+                </a>
+            </div>
         {% else %}
-            <p>No class yet</p>
+            <div class="status-card inactive">
+                <h2>No Class Right Now</h2>
+                <p>You can refresh the page to check again</p>
+            </div>
         {% endif %}
-        <a href="{% url 'attendance' %}">View your attendance history</a>
+        <a class="history-btn" href="{% url 'attendance' %}">
+            View your attendance history
+        </a>
+    </div>
     {% endif %}
 </main>
 {% endblock %}

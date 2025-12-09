@@ -2,7 +2,6 @@
 # views for the attendance application
 # Author: Yihang Duanmu (harrydm@bu.edu), 12/2/2025
 
-from typing import Any
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.db.models import Q
@@ -304,7 +303,9 @@ class AppealView(StudentRequiredMixin, DetailView):
             profile = Profile.objects.get(user=self.request.user)
             session = Class.objects.get(pk=self.kwargs["pk"])
             reason = request.get("reason")
-            Appeal.objects.create(student=profile, session=session, reason=reason)
+            Appeal.objects.create(
+                student=profile, session=session, reason=reason, status="submitted"
+            )
 
             return redirect("attendance")
 
@@ -315,7 +316,6 @@ class HandleAppealsView(InstructorRequiredMixin, ListView):
     model = Profile
     template_name = "attendance/handle_appeals.html"
     context_object_name = "appeals"
-    paginate_by = 20
 
     def get_object(self):
         return Profile.objects.get(user=self.request.user)
@@ -323,7 +323,7 @@ class HandleAppealsView(InstructorRequiredMixin, ListView):
     def get_queryset(self):
         """handle searching for records"""
         appeals = super().get_queryset()
-        appeals = Appeal.objects.all()
+        appeals = Appeal.objects.filter(status="submitted")
         return appeals
 
 
@@ -345,8 +345,9 @@ class ApproveView(InstructorRequiredMixin, View):
             longitude=session.longitude,
         )
 
-        # Delete appeal object
-        appeal.delete()
+        # Change appeal object
+        appeal.status = "approved"
+        appeal.save()
 
         # Redirect back to the profile page
         return redirect("handle_appeal")
@@ -359,8 +360,72 @@ class RejectView(InstructorRequiredMixin, View):
         # Get the appeal object
         appeal = Appeal.objects.get(pk=kwargs["pk"])
 
-        # Delete appeal object
-        appeal.delete()
+        # Change appeal object
+        appeal.status = "rejected"
+        appeal.save()
 
         # Redirect back to the profile page
         return redirect("handle_appeal")
+
+
+class CreateProfileView(CreateView):
+    """A view to create a new profile for a new User"""
+
+    template_name = "attendance/create_profile_form.html"
+    form_class = CreateProfileForm
+    model = Profile
+
+    def get_context_data(self, **kwargs):
+        """Return the dictionary of context vatiables for use in the template"""
+
+        context = super().get_context_data(**kwargs)
+
+        registrationForm = UserCreationForm
+
+        # provide the user creation form as context
+        context["register"] = registrationForm
+
+        # account for errors in registering
+        if "user_form" in kwargs:
+            context["register"] = kwargs["user_form"]
+            print(context["register"])
+
+        return context
+
+    def form_valid(self, form):
+        """This method handles the form submission and saves the new object to the Django database"""
+
+        # Create a new user form from POST data
+        if self.request.POST:
+            user_form = UserCreationForm(
+                {
+                    "username": self.request.POST.getlist("username")[0],
+                    "password1": self.request.POST.get("password1"),
+                    "password2": self.request.POST.get("password2"),
+                }
+            )
+            if user_form.is_valid():
+                user = user_form.save()
+                # Log the user
+                login(
+                    self.request,
+                    user,
+                    backend="django.contrib.auth.backends.ModelBackend",
+                )
+
+                # Link the profile to this new user
+                form.instance.user = user
+                form.instance.is_instructor = False
+
+                return super().form_valid(form)
+            # User form invalid — render same page with errors
+        return self.render_to_response(
+            self.get_context_data(
+                form=form, register=user_form, errors=user_form.errors
+            )
+        )
+
+    def get_success_url(self):
+        """The url to redirect to after creating a new User"""
+
+        return reverse("profile_page")

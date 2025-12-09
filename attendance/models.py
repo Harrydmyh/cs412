@@ -15,7 +15,6 @@ class Profile(models.Model):
     # define the data attributes of the Profile object
     first_name = models.TextField(blank=False)
     last_name = models.TextField(blank=False)
-    email = models.TextField(blank=False)
     is_instructor = models.BooleanField(blank=False)
     lecture = models.TextField(blank=True)
     discussion = models.TextField(blank=True)
@@ -136,6 +135,7 @@ class Appeal(models.Model):
         Class, related_name="appeal_class", on_delete=models.CASCADE
     )
     reason = models.TextField(blank=False)
+    status = models.TextField(blank=False)
 
     def __str__(self) -> str:
         """return a string representation of this model instance"""

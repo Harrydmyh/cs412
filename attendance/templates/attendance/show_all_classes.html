@@ -7,13 +7,19 @@
 {% block content %}
 <main>
     <h1>Manage Classes</h1>
-    {% for class in classes %}
-    <div id="grid-container">
-        <div id="text">
-            <h2>{{class.name}} {{class.session_time}}</h2>
-            <a href="{% url 'delete_class' pk=class.pk %}">Delete Class</a>
+    <div class="class-list">
+        {% for class in classes %}
+        <div class="class-card">
+            <div class="class-info">
+                <h2>{{ class.name }}</h2>
+                <p class="session">{{ class.session_time }}</p>
+            </div>
+
+            <a class="delete-btn" href="{% url 'delete_class' pk=class.pk %}">
+                Delete Class
+            </a>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </main>
 {% endblock %}

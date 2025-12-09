@@ -1,0 +1,36 @@
+<!-- mini_insta/create_profile_form.html -->
+<!-- website to update an existing profile -->
+<!-- Author: Yihang Duanmu (harrydm@bu.edu), 10/16/2025 -->
+
+{% extends "attendance/base.html" %}
+
+{% block content %}
+<main>
+    <div class="profile-card">
+        <h1>Create your profile</h1>
+        {% if errors %}
+        <div class="error-box">
+            {{ errors }}
+        </div>
+        {% endif %}
+        <form action="{% url 'create_profile' %}" method="post">
+            {% csrf_token %}
+            <div class="register-field form-section">
+                {{ register.as_p }}
+            </div>
+            <br>
+            <br>
+            <div class="post-field form-section">
+                {{ form.as_p }}
+            </div>
+
+            <div class="submit">
+                <input type="submit" name="submit" value="Create">
+                <a href="{% url 'login' %}">
+                    <input type="button" name="cancel" value="Cancel">
+                </a>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

@@ -13,7 +13,7 @@
         <table>
             {{ form.as_table }}
         </table>
-        <div class="submit">
+        <div class="login">
             <input type="submit" value="Login">
             {% if request.GET.next %}
             <input type="hidden" name="next" value="{{request.GET.next}}">
@@ -22,10 +22,18 @@
             {% endif %}
         </div>
     </form>
+
+    <br>
+    <br>
+    <hr>
+    <br>
+    <br>
+    <p>Haven't registered?</p>
+    <div class="login">
+        
+        <a href="{% url 'create_profile' %}">
+            <input type="button" name="cancel" value="Register Here">
+        </a>
+    </div>
 </main>
-
-<hr>
-Haven't registered?
-<!-- <a href="{% url 'register' %}">Register here</a> -->
-
 {% endblock %}

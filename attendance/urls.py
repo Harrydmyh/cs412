@@ -74,4 +74,9 @@ urlpatterns = [
         RejectView.as_view(),
         name="reject",
     ),
+    path(
+        "create_profile",
+        CreateProfileView.as_view(),
+        name="create_profile",
+    ),
 ]
