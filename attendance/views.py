@@ -21,7 +21,7 @@ import csv
 class RoleRequiredMixin(LoginRequiredMixin):
     """A parent mixin for custom user requirements"""
 
-    login_url = "/attendance/login"
+    login_url = "/harrydm/attendance/login"
     required_role = None  # "instructor", "student", or None for any user
 
     def handle_no_permission(self):
