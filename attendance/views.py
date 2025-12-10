@@ -120,48 +120,54 @@ class CreateClassView(InstructorRequiredMixin, CreateView):
             request = self.request.POST
             class_chosen = request.get("class_name")
             # Assign location and session to chosen class
-            match class_chosen:
-                case "CS 412 A1":
-                    latitude = 42.350
-                    longitude = -71.103
-                    date_obj = datetime.strptime(
-                        request.get("session_time"), "%Y-%m-%d"
-                    ).date()
-                    session_time = datetime.combine(date_obj, time(9, 30))
-                case "CS 412 B1":
-                    latitude = 42.350
-                    longitude = -71.103
-                    date_obj = datetime.strptime(
-                        request.get("session_time"), "%Y-%m-%d"
-                    ).date()
-                    session_time = datetime.combine(date_obj, time(11, 0))
-                case "CS 412 C1":
-                    latitude = 42.349
-                    longitude = -71.104
-                    date_obj = datetime.strptime(
-                        request.get("session_time"), "%Y-%m-%d"
-                    ).date()
-                    session_time = datetime.combine(date_obj, time(12, 20))
-                case "CS 412 C2":
-                    latitude = 42.349
-                    longitude = -71.104
-                    date_obj = datetime.strptime(
-                        request.get("session_time"), "%Y-%m-%d"
-                    ).date()
-                    session_time = datetime.combine(date_obj, time(13, 25))
-                case "CS 412 C3":
-                    latitude = 42.350
-                    longitude = -71.105
-                    date_obj = datetime.strptime(
-                        request.get("session_time"), "%Y-%m-%d"
-                    ).date()
-                    session_time = datetime.combine(date_obj, time(14, 30))
-                case "Test - CS 412 A1":
-                    latitude = 42.350
-                    longitude = -71.103
-                    session_time = datetime.now()
-                case _:
-                    return "Something's wrong"
+            if class_chosen == "CS 412 A1":
+                latitude = 42.350
+                longitude = -71.103
+                date_obj = datetime.strptime(
+                    request.get("session_time"), "%Y-%m-%d"
+                ).date()
+                session_time = datetime.combine(date_obj, time(9, 30))
+
+            elif class_chosen == "CS 412 B1":
+                latitude = 42.350
+                longitude = -71.103
+                date_obj = datetime.strptime(
+                    request.get("session_time"), "%Y-%m-%d"
+                ).date()
+                session_time = datetime.combine(date_obj, time(11, 0))
+
+            elif class_chosen == "CS 412 C1":
+                latitude = 42.349
+                longitude = -71.104
+                date_obj = datetime.strptime(
+                    request.get("session_time"), "%Y-%m-%d"
+                ).date()
+                session_time = datetime.combine(date_obj, time(12, 20))
+
+            elif class_chosen == "CS 412 C2":
+                latitude = 42.349
+                longitude = -71.104
+                date_obj = datetime.strptime(
+                    request.get("session_time"), "%Y-%m-%d"
+                ).date()
+                session_time = datetime.combine(date_obj, time(13, 25))
+
+            elif class_chosen == "CS 412 C3":
+                latitude = 42.350
+                longitude = -71.105
+                date_obj = datetime.strptime(
+                    request.get("session_time"), "%Y-%m-%d"
+                ).date()
+                session_time = datetime.combine(date_obj, time(14, 30))
+
+            elif class_chosen == "Test - CS 412 A1":
+                latitude = 42.350
+                longitude = -71.103
+                session_time = datetime.now()
+
+            else:
+                return "Something's wrong"
+
             form.instance.answer = request.get("answer")
             form.instance.name = class_chosen
             form.instance.latitude = latitude
