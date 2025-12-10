@@ -1,2 +1,7 @@
-username: DonaldTrump
-password: harry19380
+Instructor
+username: AaronStevens
+password: username3
+
+Student
+username: JamesDavis
+password: username2
