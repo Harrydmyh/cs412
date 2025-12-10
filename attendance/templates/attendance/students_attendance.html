@@ -6,9 +6,12 @@
 <h1>Attendance Report: CS 412</h1>
  
 {% block content %}
-<div class="container">
-    
+<main>  
     <h1>Attendance Report: {{ profile.first_name }} {{ profile.last_name }}</h1>
+    <h2>Attendance:</h2>
+    <p>{{ profile.get_lecture_participation }}% of lecture sessions</h2>
+    <p>{{ profile.get_discussion_participation }}% of discussion sessions</p>
+    <p>{{ profile.get_total_participation }}% of total sessions</p>
  
     <!-- navigation links for different pages of results -->
     <div class="pagination-container">
@@ -44,7 +47,7 @@
     
             {% for r in records %}
             <tr>
-                {% if r.attend_record %}
+                {% if r.attend_record.status == "attended" %}
                     <td>{{r.name}} on {{r.session_time}}</td>
                     <td>{{r.attend_record.timestamp}}</td>
                     <td>{{r.attend_record.latitude}}, {{r.attend_record.longitude}}</td>
@@ -77,7 +80,5 @@
             {% endfor %}
         </table>
     </div>
- 
- 
-</div>    
+</main>    
 {% endblock %}

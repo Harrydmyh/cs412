@@ -10,13 +10,17 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, View
+from django.http import HttpResponse
 from .models import *
 from .forms import *
 from datetime import datetime, time
 from django.contrib.auth.mixins import LoginRequiredMixin
+import csv
 
 
 class RoleRequiredMixin(LoginRequiredMixin):
+    """A parent mixin for custom user requirements"""
+
     login_url = "/attendance/login"
     required_role = None  # "instructor", "student", or None for any user
 
@@ -47,14 +51,20 @@ class RoleRequiredMixin(LoginRequiredMixin):
 
 
 class InstructorRequiredMixin(RoleRequiredMixin):
+    """A mixin to require user be an instructor"""
+
     required_role = "instructor"
 
 
 class StudentRequiredMixin(RoleRequiredMixin):
+    """A mixin to require user be a student"""
+
     required_role = "student"
 
 
 class UserRequiredMixin(RoleRequiredMixin):
+    """A mixin to require user be logged in"""
+
     required_role = None
 
 
@@ -93,6 +103,7 @@ class CreateClassView(InstructorRequiredMixin, CreateView):
     template_name = "attendance/create_class_form.html"
 
     def get_object(self):
+        """Get the profile associated with the current user"""
         return Profile.objects.get(user=self.request.user)
 
     def get_success_url(self):
@@ -108,6 +119,7 @@ class CreateClassView(InstructorRequiredMixin, CreateView):
         if self.request.POST:
             request = self.request.POST
             class_chosen = request.get("class_name")
+            # Assign location and session to chosen class
             match class_chosen:
                 case "CS 412 A1":
                     latitude = 42.350
@@ -144,6 +156,10 @@ class CreateClassView(InstructorRequiredMixin, CreateView):
                         request.get("session_time"), "%Y-%m-%d"
                     ).date()
                     session_time = datetime.combine(date_obj, time(14, 30))
+                case "Test - CS 412 A1":
+                    latitude = 42.350
+                    longitude = -71.103
+                    session_time = datetime.now()
                 case _:
                     return "Something's wrong"
             form.instance.answer = request.get("answer")
@@ -163,6 +179,7 @@ class ShowAllClassesView(InstructorRequiredMixin, DetailView):
     context_object_name = "profile"
 
     def get_object(self):
+        """Get the profile associated with the current user"""
         return Profile.objects.get(user=self.request.user)
 
     def get_context_data(self, **kwargs):
@@ -206,6 +223,7 @@ class ShowStudentsInClassView(InstructorRequiredMixin, ListView):
         return records
 
     def get_object(self):
+        """Get the profile associated with the current user"""
         return Profile.objects.get(user=self.request.user)
 
 
@@ -218,6 +236,7 @@ class ShowStudentAttendence(StudentRequiredMixin, ListView):
     paginate_by = 20
 
     def get_object(self):
+        """Get the profile associated with the current user"""
         return Profile.objects.get(user=self.request.user)
 
     def get_queryset(self):
@@ -225,11 +244,14 @@ class ShowStudentAttendence(StudentRequiredMixin, ListView):
         records = super().get_queryset()
         student = Profile.objects.get(user=self.request.user)
         records = Class.objects.filter(
-            Q(name=student.lecture) | Q(name=student.discussion)
+            Q(name=student.lecture)
+            | Q(name=student.discussion)
+            | Q(name="Test - CS 412 A1")
         )
         return records
 
     def get_context_data(self, **kwargs):
+        """Return the dictionary of context variables for use in the template"""
         context = super().get_context_data(**kwargs)
         student = Profile.objects.get(user=self.request.user)
         context["profile"] = student
@@ -248,13 +270,15 @@ def logout(request):
 
 
 def redirect_to_my_profile(request):
+    """Redirect to profile page"""
     return redirect("profile_page")
 
 
 class CreateAttendView(LoginRequiredMixin, View):
-    """Create a Attend relationship between logged-in user and a class"""
+    """Create an Attend relationship between logged-in user and a class"""
 
     def post(self, request, *args, **kwargs):
+        """Handle post request from the template"""
         profile = Profile.objects.get(user=self.request.user)
         session = Class.objects.get(pk=self.kwargs["pk"])
         response = self.request.POST
@@ -265,15 +289,27 @@ class CreateAttendView(LoginRequiredMixin, View):
         # Create attendance record
         if (
             answer == session.answer
-            and session.latitude - 0.002 <= latitude <= session.latitude + 0.002
-            and session.longitude - 0.002 <= longitude <= session.longitude + 0.002
+            and session.latitude - 0.004 <= latitude <= session.latitude + 0.004
+            and session.longitude - 0.004 <= longitude <= session.longitude + 0.004
         ):
+            # correct answer and location
             Attend.objects.create(
                 student=profile,
                 session=session,
                 answer=answer,
                 latitude=latitude,
                 longitude=longitude,
+                status="attended",
+            )
+        else:
+            # wrong answer or location
+            Attend.objects.create(
+                student=profile,
+                session=session,
+                answer=answer,
+                latitude=latitude,
+                longitude=longitude,
+                status="submitted",
             )
 
         return redirect("profile_page")
@@ -318,6 +354,7 @@ class HandleAppealsView(InstructorRequiredMixin, ListView):
     context_object_name = "appeals"
 
     def get_object(self):
+        """Get the profile associated with the current user"""
         return Profile.objects.get(user=self.request.user)
 
     def get_queryset(self):
@@ -331,6 +368,7 @@ class ApproveView(InstructorRequiredMixin, View):
     """Approve an appeal and create a new attend relationship"""
 
     def dispatch(self, request, *args, **kwargs):
+        """Override the dispatch method to add debugging information"""
         # Get the appeal object
         appeal = Appeal.objects.get(pk=kwargs["pk"])
         student = appeal.student
@@ -343,6 +381,7 @@ class ApproveView(InstructorRequiredMixin, View):
             answer=session.answer,
             latitude=session.latitude,
             longitude=session.longitude,
+            status="attended",
         )
 
         # Change appeal object
@@ -357,6 +396,7 @@ class RejectView(InstructorRequiredMixin, View):
     """Reject an appeal and create a new attend relationship"""
 
     def dispatch(self, request, *args, **kwargs):
+        """Override the dispatch method to add debugging information"""
         # Get the appeal object
         appeal = Appeal.objects.get(pk=kwargs["pk"])
 
@@ -429,3 +469,34 @@ class CreateProfileView(CreateView):
         """The url to redirect to after creating a new User"""
 
         return reverse("profile_page")
+
+
+def export_csv(request):
+    """Export student participation to csv"""
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="attendance.csv"'},
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            "Student Name",
+            "Lecture Participation",
+            "Discussion Participation",
+            "Total Participation",
+        ]
+    )  # header row
+
+    # Write rows from your database
+    for student in Profile.objects.filter(is_instructor=False):
+        writer.writerow(
+            [
+                f"{student.first_name} {student.last_name}",
+                student.get_lecture_participation(),
+                student.get_discussion_participation(),
+                student.get_total_participation(),
+            ]
+        )
+
+    return response

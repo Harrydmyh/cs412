@@ -28,6 +28,7 @@ class Profile(models.Model):
         return f"{status} {self.first_name} {self.last_name}"
 
     def class_happening(self):
+        """determine whether a class is happening within 15 minutes"""
         now = timezone.now()
         time_window_start = now - timedelta(minutes=15)
         time_window_end = now + timedelta(minutes=15)
@@ -39,10 +40,12 @@ class Profile(models.Model):
             is_my_class = (
                 classes.first().name == self.lecture
                 or classes.first().name == self.discussion
+                or classes.first().name == "Test - CS 412 A1"
             )
         return classes.exists() and is_my_class
 
     def get_class_happening(self):
+        """get the class that's going on within 15 minutes"""
         now = timezone.now()
         time_window_start = now - timedelta(minutes=15)
         time_window_end = now + timedelta(minutes=15)
@@ -52,10 +55,17 @@ class Profile(models.Model):
         ).first()
         return classes
 
+    def already_signed_in(self):
+        """see if students are signed in for the class"""
+        classes = self.get_class_happening()
+        attend = Attend.objects.filter(student=self, session=classes)
+        return attend
+
     def get_lecture_participation(self):
+        """get the percentage of lectures attended by the student"""
         lectures = Class.objects.filter(name=self.lecture).count()
         participated = Attend.objects.filter(
-            student=self, session__name=self.lecture
+            student=self, session__name=self.lecture, status="attended"
         ).count()
 
         if lectures > 0:
@@ -64,9 +74,10 @@ class Profile(models.Model):
         return 0.0
 
     def get_discussion_participation(self):
+        """get the percentage of discussion attended by the student"""
         discussion = Class.objects.filter(name=self.discussion).count()
         participated = Attend.objects.filter(
-            student=self, session__name=self.discussion
+            student=self, session__name=self.discussion, status="attended"
         ).count()
 
         if discussion > 0:
@@ -75,12 +86,13 @@ class Profile(models.Model):
         return 0.0
 
     def get_total_participation(self):
+        """get the percentage of all sessions attended by the student"""
         total = Class.objects.filter(
             Q(name=self.lecture) | Q(name=self.discussion)
         ).count()
         participated = Attend.objects.filter(
-            Q(student=self, session__name=self.lecture)
-            | Q(student=self, session__name=self.discussion)
+            Q(student=self, session__name=self.lecture, status="attended")
+            | Q(student=self, session__name=self.discussion, status="attended")
         ).count()
 
         if total > 0:
@@ -118,6 +130,7 @@ class Attend(models.Model):
     answer = models.TextField(blank=False)
     latitude = models.FloatField(blank=False)
     longitude = models.FloatField(blank=False)
+    status = models.TextField(blank=False)
 
     def __str__(self) -> str:
         """return a string representation of this model instance"""

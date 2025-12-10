@@ -6,10 +6,13 @@
 <h1>Attendance Report: CS 412</h1>
  
 {% block content %}
-<div class="container">
-    
+<main>
     <h1>Attendance Report: CS 412</h1>
- 
+    <div class="login">
+        <a href="{% url 'export_csv' %}">
+            <input type="button" name="cancel" value="Export result to CSV">
+        </a>
+    </div>
     <!-- navigation links for different pages of results -->
     <div class="pagination-container">
         {% if is_paginated %}
@@ -54,7 +57,5 @@
             {% endfor %}
         </table>
     </div>
- 
- 
-</div>    
+</main>    
 {% endblock %}

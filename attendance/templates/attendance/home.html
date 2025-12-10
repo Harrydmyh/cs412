@@ -18,15 +18,23 @@
     <div class="student-dashboard">
 
         {% if profile.class_happening %}
-            <div class="status-card active">
-                <h2>Class in Progress</h2>
-                <p class="class-name">{{ profile.get_class_happening.name }}</p>
-    
-                <a class="primary-btn"
-                   href="{% url 'signin' profile.get_class_happening.pk %}">
-                   Sign in to your class
-                </a>
-            </div>
+            {% if profile.already_signed_in %}
+                <div class="status-card active">
+                    <h2>Class in Progress</h2>
+                    <p class="class-name">{{ profile.get_class_happening.name }}</p>
+                    <p>You have already signed in</p>
+                </div>
+            {% else %}
+                <div class="status-card active">
+                    <h2>Class in Progress</h2>
+                    <p class="class-name">{{ profile.get_class_happening.name }}</p>
+        
+                    <a class="primary-btn"
+                    href="{% url 'signin' profile.get_class_happening.pk %}">
+                    Sign in to your class
+                    </a>
+                </div>
+            {% endif %}
         {% else %}
             <div class="status-card inactive">
                 <h2>No Class Right Now</h2>

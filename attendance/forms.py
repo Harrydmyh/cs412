@@ -16,6 +16,7 @@ class CreateClassForm(forms.ModelForm):
             ("CS 412 C1", "CS412 C1 - Discussion 12:20"),
             ("CS 412 C2", "CS412 C2 - Discussion 13:25"),
             ("CS 412 C3", "CS412 C3 - Discussion 14:30"),
+            ("Test - CS 412 A1", "Test choice - Create session A1 starting right now"),
         ],
         label="Class Name",
     )

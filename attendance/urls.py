@@ -79,4 +79,9 @@ urlpatterns = [
         CreateProfileView.as_view(),
         name="create_profile",
     ),
+    path(
+        "export_csv",
+        views.export_csv,
+        name="export_csv",
+    ),
 ]
